@@ -12,7 +12,7 @@ start:
 	make start-backend & make start-frontend
 
 build:
-	cd frontend && npm run build
+	cd frontend && npx vite build
 
 stop:
 	@echo "Killing process on port 5001 (backend)"
