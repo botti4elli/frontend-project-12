@@ -1,0 +1,22 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botti4elli/frontend-project-12.git"
+  },
+  "author": "botti4elli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/botti4elli/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/botti4elli/frontend-project-12#readme",
+  "description": "",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  }
+}
