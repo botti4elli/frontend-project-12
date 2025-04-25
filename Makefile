@@ -19,5 +19,6 @@ stop:
 	@lsof -ti :5001 | xargs kill -9 || true
 preview:
 	cd frontend && npm run preview
-deploy:
-	git push render main
+
+lint:
+	npx eslint .
