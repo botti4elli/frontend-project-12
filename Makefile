@@ -17,7 +17,7 @@ start:
 
 # Сборка фронтенда
 build:
-	cd frontend && npx vite build
+	cd frontend && npm run build
 
 # Остановка процесса на порту 5001 (бэкенд)
 stop:
