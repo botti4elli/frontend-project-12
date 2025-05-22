@@ -19,6 +19,7 @@ export default {
     rename: 'Переименовать',
     remove: 'Удалить',
     management: 'Управление каналом',
+    general: '#general',
 
     errors: {
       required: 'Обязательное поле',
