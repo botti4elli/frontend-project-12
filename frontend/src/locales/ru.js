@@ -24,10 +24,14 @@ export default {
       required: 'Обязательное поле',
       usernameLength: 'От 3 до 20 символов',
       passwordMin: 'Не менее 6 символов',
-      confirmPassword: 'Пароли должны совпадать',
+      passwordsMustMatch: 'Пароли должны совпадать',
       userExists: 'Такой пользователь уже существует',
       loginFailed: 'Неверные имя пользователя или пароль',
       channelNameLength: 'От 3 до 20 символов',
+      passwordLength: 'Пароль должен содержать от 6 до 20 символов',
+      loadingChannels: 'Ошибка загрузки каналов',
+      signupFailed: 'Ошибка регистрации. Попробуйте позже',
+
     },
 
     feedback: {

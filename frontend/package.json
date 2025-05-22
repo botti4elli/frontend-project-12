@@ -22,6 +22,7 @@
     "react-i18next": "^15.5.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
+    "react-toastify": "^11.0.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -39,7 +40,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-testing-library": "^7.2.1",
     "globals": "^16.1.0",
-    "react-toastify": "^11.0.5",
     "vite": "^6.3.1"
   }
 }
