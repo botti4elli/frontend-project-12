@@ -76,7 +76,57 @@ const AddChannelModal = ({ show, onHide }) => {
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        {/* <Form onSubmit={formik.handleSubmit}> */}
+        {/*  <Form.Group controlId="name"> */}
+        {/*    <Form.Label className="visually-hidden">{t('modals.channelName')}</Form.Label> */}
+        {/*    <Form.Control */}
+        {/*      name="name" */}
+        {/*      required */}
+        {/*      ref={inputRef} */}
+        {/*      onChange={formik.handleChange} */}
+        {/*      onBlur={formik.handleBlur} */}
+        {/*      value={formik.values.name} */}
+        {/*      isInvalid={showError} */}
+        {/*      disabled={status === 'loading'} */}
+        {/*      autoComplete="off" */}
+        {/*    /> */}
+        {/*    {showError && ( */}
+        {/*      <Form.Control.Feedback type="invalid"> */}
+        {/*        {formik.errors.name} */}
+        {/*      </Form.Control.Feedback> */}
+        {/*    )} */}
+        {/*  </Form.Group> */}
+
+        {/*  <div className="d-flex justify-content-end mt-3"> */}
+        {/*    <Button */}
+        {/*      variant="secondary" */}
+        {/*      onClick={onHide} */}
+        {/*      className="me-2" */}
+        {/*      disabled={status === 'loading'} */}
+        {/*    > */}
+        {/*      {t('modals.cancel')} */}
+        {/*    </Button> */}
+        {/*    <Button */}
+        {/*      variant="primary" */}
+        {/*      type="submit" */}
+        {/*      disabled={status === 'loading' || !formik.isValid || formik.isSubmitting} */}
+        {/*    > */}
+        {/*      {status === 'loading' ? ( */}
+        {/*        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> */}
+        {/*      ) : ( */}
+        {/*        t('modals.submit') */}
+        {/*      )} */}
+        {/*    </Button> */}
+        {/*  </div> */}
+        {/* </Form> */}
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            // Устанавливаем touched вручную, чтобы ошибка показалась даже если поле не трогали
+            formik.setTouched({ name: true });
+            formik.handleSubmit();
+          }}
+        >
           <Form.Group controlId="name">
             <Form.Label className="visually-hidden">{t('modals.channelName')}</Form.Label>
             <Form.Control
@@ -86,14 +136,15 @@ const AddChannelModal = ({ show, onHide }) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
-              isInvalid={showError}
+              isInvalid={formik.touched.name && !!formik.errors.name}
               disabled={status === 'loading'}
               autoComplete="off"
+              autoFocus
             />
-            {showError && (
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.name}
-              </Form.Control.Feedback>
+            {formik.touched.name && formik.errors.name && (
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
             )}
           </Form.Group>
 
@@ -109,7 +160,7 @@ const AddChannelModal = ({ show, onHide }) => {
             <Button
               variant="primary"
               type="submit"
-              disabled={status === 'loading' || !formik.isValid || formik.isSubmitting}
+              disabled={status === 'loading' || formik.isSubmitting}
             >
               {status === 'loading' ? (
                 <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
@@ -119,6 +170,7 @@ const AddChannelModal = ({ show, onHide }) => {
             </Button>
           </div>
         </Form>
+
       </Modal.Body>
     </Modal>
   );
