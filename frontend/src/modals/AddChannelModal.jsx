@@ -33,7 +33,10 @@ const AddChannelModal = ({ show, onHide }) => {
     validateOnChange: true,
     onSubmit: async ({ name }, { resetForm, setSubmitting }) => {
       setSubmitAttempted(true);
-      const cleanedName = leoProfanity.clean(name).trim();
+      // const cleanedName = leoProfanity.clean(name).trim();
+      const cleanedNameRaw = leoProfanity.clean(name).trim();
+      // cleanedNameRaw заменяет плохие слова на ***
+      const cleanedName = cleanedNameRaw.replace(/\*{3}/g, '*****');
       try {
         await dispatch(addChannelThunk({ name: cleanedName })).unwrap();
         resetForm();
