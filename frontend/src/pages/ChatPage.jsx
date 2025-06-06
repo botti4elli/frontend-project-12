@@ -45,37 +45,6 @@ const ChatPage = () => {
     () => setIsSocketConnected(true),
     () => setIsSocketConnected(false),
   );
-
-  // Init app
-  // useEffect(() => {
-  //   dispatch(initApp());
-  //
-  //   socket.on('connect', () => setIsSocketConnected(true));
-  //   socket.on('disconnect', () => setIsSocketConnected(false));
-  //
-  //   return () => {
-  //     socket.off('connect');
-  //     socket.off('disconnect');
-  //   };
-  // }, [dispatch]);
-  //
-  // // Socket events
-  // useEffect(() => {
-  //   const handleNewMessage = (msg) => dispatch(addMessage(msg));
-  //   socket.on('newMessage', handleNewMessage);
-  //   return () => socket.off('newMessage', handleNewMessage);
-  // }, [dispatch]);
-  //
-  // useEffect(() => {
-  //   const handleNewChannel = (channel) => {
-  //     dispatch(addChannel(channel));
-  //     dispatch(setCurrentChannelId(channel.id));
-  //   };
-  //   socket.on('newChannel', handleNewChannel);
-  //   return () => socket.off('newChannel', handleNewChannel);
-  // }, [dispatch]);
-
-  // Error notifications
   useEffect(() => {
     if (isAppError) {
       toast.error(t('chat.loadingDataFailed'));
