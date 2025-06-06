@@ -60,6 +60,7 @@ export default {
       removeChannel: 'Удалить канал',
       remove: 'Удалить',
       confirm: 'Уверены?',
+      renameLabel: 'Имя канала',
     },
 
     chat: {

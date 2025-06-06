@@ -73,6 +73,7 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
       <Form noValidate onSubmit={formik.handleSubmit}>
         <Modal.Body>
           <Form.Group controlId="name">
+            <Form.Label>{t('modals.renameLabel')}</Form.Label>
             <Form.Control
               name="name"
               type="text"
