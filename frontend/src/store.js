@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slices/authSlice';
-import channelsReducer from './slices/channelsSlice';
-import messagesReducer from './slices/messagesSlice';
-import initReducer from './slices/initSlice';
-import uiReducer from './slices/uiSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import authReducer from './slices/authSlice'
+import channelsReducer from './slices/channelsSlice'
+import messagesReducer from './slices/messagesSlice'
+import initReducer from './slices/initSlice'
+import uiReducer from './slices/uiSlice'
 
 export default configureStore({
   reducer: {
@@ -13,4 +13,4 @@ export default configureStore({
     init: initReducer,
     ui: uiReducer,
   },
-});
+})
