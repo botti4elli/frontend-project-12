@@ -5,13 +5,15 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
+
+import leoProfanity from 'leo-profanity';
 
 import { addChannelThunk } from '../slices/channelsThunks';
 import { getAddChannelSchema } from '../schemas/channelSchemas';
 
-leoProfanity.loadDictionary('ru');
+leoProfanity.loadDictionary('ru'); // Загружаем русский словарь
+leoProfanity.add(leoProfanity.getDictionary('en')); // добавляем английский
 
 const AddChannelModal = ({ show, onHide }) => {
   const { t } = useTranslation();
@@ -33,10 +35,12 @@ const AddChannelModal = ({ show, onHide }) => {
     validateOnChange: true,
     onSubmit: async ({ name }, { resetForm, setSubmitting }) => {
       setSubmitAttempted(true);
-      // const cleanedName = leoProfanity.clean(name).trim();
-      const cleanedNameRaw = leoProfanity.clean(name).trim();
-      // cleanedNameRaw заменяет плохие слова на ***
-      const cleanedName = cleanedNameRaw.replace(/\*{3}/g, '*****');
+
+
+      const cleanedName = leoProfanity.clean(name).trim();
+
+
+
       try {
         await dispatch(addChannelThunk({ name: cleanedName })).unwrap();
         resetForm();
