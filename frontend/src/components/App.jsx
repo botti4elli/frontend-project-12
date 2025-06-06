@@ -1,28 +1,31 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NotFound from './notFound';
-import Login from './Login.jsx';
-import Signup from './SignUp.jsx';
-import Header from './Header';
-import ChatPage from './ChatPage.jsx'; // импортируй Chat
-import PrivateRoute from './PrivateRoute.jsx';
+import { ToastContainer } from 'react-toastify';
+
+import routes from '../routes.jsx';
+import Header from './Header.jsx';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => (
   <BrowserRouter>
     <Header />
     <Routes>
-      <Route
-        path="/"
-        element={(
-          <PrivateRoute>
-            <ChatPage />
-          </PrivateRoute>
-                )}
-      />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="*" element={<NotFound />} />
+      {routes.map(({ path, element }) => (
+        <Route key={path} path={path} element={element} />
+      ))}
     </Routes>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      progressClassName="bg-success"
+    />
   </BrowserRouter>
 );
 

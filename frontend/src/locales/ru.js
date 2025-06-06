@@ -20,6 +20,9 @@ export default {
     remove: 'Удалить',
     management: 'Управление каналом',
     general: '#general',
+    notFound: 'Страница не найдена',
+    youCanGo: 'Но вы можете перейти',
+    toHomePage: 'на главную страницу',
 
     errors: {
       required: 'Обязательное поле',
@@ -30,19 +33,49 @@ export default {
       loginFailed: 'Неверные имя пользователя или пароль',
       channelNameLength: 'От 3 до 20 символов',
       passwordLength: 'Пароль должен содержать от 6 до 20 символов',
-      loadingChannels: 'Ошибка загрузки каналов',
+      // loadingChannels: 'Ошибка загрузки каналов',
       signupFailed: 'Ошибка регистрации. Попробуйте позже',
-
+      loadingDataFailed: 'Ошибка загрузки данных', // есть
+      sendMessageFailed: 'Не удалось отправить сообщение',
     },
 
-    feedback: {
+    toasts: {
       channelCreated: 'Канал создан',
       channelRenamed: 'Канал переименован',
       channelRemoved: 'Канал удалён',
     },
 
+    modals: {
+      required: 'Обязательное поле',
+      mustBeUnique: 'Должно быть уникальным',
+      minLength: 'От 3 до 20 символов',
+      maxLength: 'От 3 до 20 символов',
+      addChannel: 'Добавить канал',
+      channelName: 'Имя канала',
+      cancel: 'Отменить',
+      submit: 'Отправить',
+      networkError: 'Ошибка сети, попробуйте позже', // есть
+      renameChannel: 'Переименовать канал',
+      removeChannel: 'Удалить канал',
+      remove: 'Удалить',
+      confirm: 'Уверены?',
+    },
+
     chat: {
-      newMessage: 'Новое сообщение',
+      loading: 'Загрузка сообщений...',
+      noChannelSelected: 'Канал не выбран',
+      newMessage: 'Введите сообщение',
+      noChannels: 'Нет доступных каналов',
+      messageCount_one: '{{count}} сообщение',
+      messageCount_few: '{{count}} сообщения',
+      messageCount_many: '{{count}} сообщений',
+      messageCount_other: '{{count}} сообщения',
+      disconnected: 'Соединение потеряно', // есть
+      loadingDataFailed: 'Ошибка загрузки данных',
+    },
+    channel: {
+      remove: 'Удалить',
+      rename: 'Переименовать',
     },
   },
 };

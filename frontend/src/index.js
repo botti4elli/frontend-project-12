@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 import init from './init.jsx';
 
 const rootElement = document.getElementById('root');

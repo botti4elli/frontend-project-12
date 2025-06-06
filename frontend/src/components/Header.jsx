@@ -24,9 +24,9 @@ const Header = () => {
           Hexlet Chat
         </Link>
         {isAuthenticated && (
-        <Button variant="outline-primary" onClick={handleLogout}>
-          {t('logout')}
-        </Button>
+          <Button variant="outline-primary" onClick={handleLogout}>
+            {t('logout')}
+          </Button>
         )}
       </div>
     </header>

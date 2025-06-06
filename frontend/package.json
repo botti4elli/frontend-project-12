@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.6",
@@ -18,11 +19,15 @@
     "leo-profanity": "^1.7.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.5.1",
+    "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
     "react-toastify": "^11.0.5",
+    "rollbar": "^2.26.4",
+    "socket.io-client": "^4.8.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -40,6 +45,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-testing-library": "^7.2.1",
     "globals": "^16.1.0",
+    "rollup-plugin-visualizer": "^6.0.1",
     "vite": "^6.3.1"
   }
 }

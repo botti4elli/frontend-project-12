@@ -5,10 +5,10 @@ import {
   Container, Row, Col, Card, Form, Button, Image,
 } from 'react-bootstrap';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { setCredentials } from '../slices/authSlice';
+import getSignupSchema from '../schemas/authSchemas.js';
+import { setCredentials } from '../slices/authSlice.js';
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -20,7 +20,6 @@ const Signup = () => {
   const [submittedOnce, setSubmittedOnce] = useState(false);
   const [passwordTouchedManually, setPasswordTouchedManually] = useState(false);
 
-  // Новые состояния для подсветки username
   const [usernameActivated, setUsernameActivated] = useState(false);
 
   const usernameInputRef = useRef(null);
@@ -32,7 +31,6 @@ const Signup = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    // При монтировании фокус на username (по желанию, можно убрать)
     if (usernameInputRef.current) {
       usernameInputRef.current.focus();
     }
@@ -44,20 +42,7 @@ const Signup = () => {
     confirmPassword: '',
   };
 
-  const validationSchema = yup.object().shape({
-    username: yup
-      .string()
-      .min(3, t('errors.usernameLength'))
-      .max(20, t('errors.usernameLength'))
-      .required(t('errors.required')),
-    password: yup
-      .string()
-      .min(6, t('errors.passwordLength'))
-      .required(t('errors.required')),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password'), null], t('errors.passwordsMustMatch')),
-  });
+  const validationSchema = getSignupSchema(t);
 
   const handleFormSubmit = async (values, { setSubmitting }) => {
     setSignupError(null);

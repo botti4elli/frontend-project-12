@@ -1,9 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
+const storedToken = localStorage.getItem('token');
+const storedUsername = localStorage.getItem('username');
+
 const initialState = {
-  token: localStorage.getItem('token'),
-  username: localStorage.getItem('username'),
+  token: storedToken,
+  username: storedUsername,
+  isAuthenticated: !!storedToken,
 };
 
 const authSlice = createSlice({
@@ -11,15 +15,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { token, username } = action.payload;
-      state.token = token;
-      state.username = username;
-      localStorage.setItem('token', token);
-      localStorage.setItem('username', username);
+      const { token: newToken, username: newUsername } = action.payload;
+      state.token = newToken;
+      state.username = newUsername;
+      state.isAuthenticated = true;
+      localStorage.setItem('token', newToken);
+      localStorage.setItem('username', newUsername);
     },
     logout: (state) => {
       state.token = null;
       state.username = null;
+      state.isAuthenticated = false;
       localStorage.removeItem('token');
       localStorage.removeItem('username');
     },
@@ -27,4 +33,9 @@ const authSlice = createSlice({
 });
 
 export const { setCredentials, logout } = authSlice.actions;
+
+// Селекторы
+export const selectToken = (state) => state.auth.token;
+export const selectUsername = (state) => state.auth.username;
+
 export default authSlice.reducer;
