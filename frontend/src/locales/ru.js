@@ -23,7 +23,6 @@ export default {
     notFound: 'Страница не найдена',
     youCanGo: 'Но вы можете перейти',
     toHomePage: 'на главную страницу',
-
     errors: {
       required: 'Обязательное поле',
       usernameLength: 'От 3 до 20 символов',
@@ -39,13 +38,11 @@ export default {
       loadingDataFailed: 'Ошибка загрузки данных', // есть
       sendMessageFailed: 'Не удалось отправить сообщение',
     },
-
     toasts: {
       channelCreated: 'Канал создан',
       channelRenamed: 'Канал переименован',
       channelRemoved: 'Канал удалён',
     },
-
     modals: {
       required: 'Обязательное поле',
       mustBeUnique: 'Должно быть уникальным',
@@ -62,7 +59,6 @@ export default {
       confirm: 'Уверены?',
       renameLabel: 'Имя канала',
     },
-
     chat: {
       loading: 'Загрузка сообщений...',
       noChannelSelected: 'Канал не выбран',
@@ -82,4 +78,4 @@ export default {
       manage: 'Управление каналом',
     },
   },
-}
+};

@@ -1,68 +1,68 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 import {
   Container, Row, Col,
-} from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+} from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
-import useAuth from '../hooks/useAuth';
-import { initApp } from '../slices/initSlice';
-import socket from '../services/socket';
-import { openModal } from '../slices/uiSlice';
+import useAuth from '../hooks/useAuth'
+import { initApp } from '../slices/initSlice'
+import socket from '../services/socket'
+import { openModal } from '../slices/uiSlice'
 
-import ChannelsList from '../components/ChannelsList';
-import ChatHeader from '../components/ChatHeader';
-import MessagesList from '../components/MessagesList';
-import MessageInputForm from '../components/MessageInputForm';
-import ModalsManager from '../components/ModalsManager';
+import ChannelsList from '../components/ChannelsList'
+import ChatHeader from '../components/ChatHeader'
+import MessagesList from '../components/MessagesList'
+import MessageInputForm from '../components/MessageInputForm'
+import ModalsManager from '../components/ModalsManager'
 
-import useSocketEvents from '../hooks/useSocketEvents';
+import useSocketEvents from '../hooks/useSocketEvents'
 
 const ChatPage = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { username, token } = useAuth();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { username, token } = useAuth()
 
-  const channels = useSelector((state) => state.channels.channels);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const messages = useSelector((state) => state.messages);
-  const isAppLoading = useSelector((state) => state.init.loading);
-  const isAppError = useSelector((state) => state.init.error);
+  const channels = useSelector((state) => state.channels.channels)
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
+  const messages = useSelector((state) => state.messages)
+  const isAppLoading = useSelector((state) => state.init.loading)
+  const isAppError = useSelector((state) => state.init.error)
 
   // const modal = useSelector((state) => state.ui.modal);
-  const currentChannel = channels.find((c) => c.id === currentChannelId);
-  const currentMessages = messages.filter((m) => m.channelId === currentChannelId);
+  const currentChannel = channels.find((c) => c.id === currentChannelId)
+  const currentMessages = messages.filter((m) => m.channelId === currentChannelId)
 
-  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected);
-  const hasShownDisconnectToast = useRef(false);
+  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected)
+  const hasShownDisconnectToast = useRef(false)
 
   useEffect(() => {
-    dispatch(initApp());
-  }, [dispatch]);
+    dispatch(initApp())
+  }, [dispatch])
 
   useSocketEvents(
     () => setIsSocketConnected(true),
     () => setIsSocketConnected(false),
-  );
+  )
   useEffect(() => {
     if (isAppError) {
-      toast.error(t('chat.loadingDataFailed'));
+      toast.error(t('chat.loadingDataFailed'))
     }
-  }, [isAppError, t]);
+  }, [isAppError, t])
 
   // Disconnect notice
   useEffect(() => {
     if (!isSocketConnected && !hasShownDisconnectToast.current) {
-      toast.warning(t('chat.disconnected'));
-      hasShownDisconnectToast.current = true;
+      toast.warning(t('chat.disconnected'))
+      hasShownDisconnectToast.current = true
     }
     if (isSocketConnected) {
-      hasShownDisconnectToast.current = false;
+      hasShownDisconnectToast.current = false
     }
-  }, [isSocketConnected, t]);
+  }, [isSocketConnected, t])
 
-  if (isAppLoading) return null;
+  if (isAppLoading) return null
 
   return (
     <Container fluid className="d-flex justify-content-center bg-light">
@@ -95,7 +95,7 @@ const ChatPage = () => {
       </div>
       <ModalsManager />
     </Container>
-  );
-};
+  )
+}
 
-export default ChatPage;
+export default ChatPage

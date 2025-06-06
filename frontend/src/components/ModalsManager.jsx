@@ -1,22 +1,22 @@
-import React, { lazy, Suspense } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../slices/uiSlice';
+import React, { lazy, Suspense } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeModal } from '../slices/uiSlice'
 
-const AddChannelModal = lazy(() => import('../modals/AddChannelModal'));
-const RenameChannelModal = lazy(() => import('../modals/RenameChannelModal'));
-const RemoveChannelModal = lazy(() => import('../modals/RemoveChannelModal'));
+const AddChannelModal = lazy(() => import('../modals/AddChannelModal'))
+const RenameChannelModal = lazy(() => import('../modals/RenameChannelModal'))
+const RemoveChannelModal = lazy(() => import('../modals/RemoveChannelModal'))
 
 const ModalsManager = () => {
-  const dispatch = useDispatch();
-  const modal = useSelector((state) => state.ui.modal);
+  const dispatch = useDispatch()
+  const modal = useSelector((state) => state.ui.modal)
 
-  if (!modal.type) return null;
+  if (!modal.type) return null
 
   const handleClose = () => {
-    dispatch(closeModal());
-  };
+    dispatch(closeModal())
+  }
 
-  const { type, channelId } = modal;
+  const { type, channelId } = modal
 
   return (
     <Suspense fallback={null}>
@@ -30,7 +30,7 @@ const ModalsManager = () => {
         <RemoveChannelModal show onHide={handleClose} channelId={channelId} />
       )}
     </Suspense>
-  );
-};
+  )
+}
 
-export default ModalsManager;
+export default ModalsManager

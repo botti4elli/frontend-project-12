@@ -1,14 +1,14 @@
-import i18next from 'i18next';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import store from './store.js';
-import App from './components/App';
-import resources from './locales/index.js';
+import i18next from 'i18next'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import store from './store.js'
+import App from './components/App'
+import resources from './locales/index.js'
 
 const init = async () => {
-  const i18n = i18next.createInstance();
+  const i18n = i18next.createInstance()
 
   try {
     await i18n
@@ -21,17 +21,17 @@ const init = async () => {
         interpolation: {
           escapeValue: false,
         },
-      });
+      })
 
-    console.log('i18n initialized:', i18n.language);
+    console.log('i18n initialized:', i18n.language)
   } catch (error) {
-    console.error('i18n initialization failed:', error);
+    console.error('i18n initialization failed:', error)
   }
 
-  const rootElement = document.getElementById('root');
-  if (!rootElement) throw new Error('Root element not found!');
+  const rootElement = document.getElementById('root')
+  if (!rootElement) throw new Error('Root element not found!')
 
-  const root = ReactDOM.createRoot(rootElement);
+  const root = ReactDOM.createRoot(rootElement)
   root.render(
     <React.StrictMode>
       <Provider store={store}>
@@ -41,7 +41,7 @@ const init = async () => {
         </I18nextProvider>
       </Provider>
     </React.StrictMode>,
-  );
-};
+  )
+}
 
-export default init;
+export default init

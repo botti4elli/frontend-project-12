@@ -1,59 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Button, Card, Form, Nav, Image, Container, Row, Col,
-} from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
-import { Formik } from 'formik';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import { setCredentials } from '../slices/authSlice.js';
+} from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
+import { Formik } from 'formik'
+import axios from 'axios'
+import { useTranslation } from 'react-i18next'
+import { setCredentials } from '../slices/authSlice.js'
 
 const Login = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [authError, setAuthError] = useState(false);
-  const usernameInputRef = useRef(null);
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [authError, setAuthError] = useState(false)
+  const usernameInputRef = useRef(null)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('token')
     if (storedToken) {
-      navigate('/');
+      navigate('/')
     }
-  }, [navigate]);
+  }, [navigate])
 
   useEffect(() => {
     if (usernameInputRef.current) {
-      usernameInputRef.current.focus();
+      usernameInputRef.current.focus()
     }
-  }, []);
+  }, [])
 
   const initialValues = {
     username: '',
     password: '',
-  };
+  }
 
   const handleOnSubmit = async (values, { setSubmitting }) => {
-    const { username, password } = values;
-    setAuthError(false);
+    const { username, password } = values
+    setAuthError(false)
 
     if (!username.trim() || !password.trim()) {
-      setSubmitting(false);
-      return;
+      setSubmitting(false)
+      return
     }
 
     try {
-      const response = await axios.post('/api/v1/login', values);
-      const { token } = response.data;
-      localStorage.setItem('token', token);
-      dispatch(setCredentials({ token, username }));
-      navigate('/');
+      const response = await axios.post('/api/v1/login', values)
+      const { token } = response.data
+      localStorage.setItem('token', token)
+      dispatch(setCredentials({ token, username }))
+      navigate('/')
     } catch (err) {
-      setAuthError(true);
-      setSubmitting(false);
+      setAuthError(true)
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -80,7 +80,7 @@ const Login = () => {
                       values,
                       isSubmitting,
                     }) => {
-                      const bothFieldsFilled = values.username.trim() && values.password.trim();
+                      const bothFieldsFilled = values.username.trim() && values.password.trim()
 
                       return (
                         <Form noValidate onSubmit={handleSubmit}>
@@ -128,7 +128,7 @@ const Login = () => {
                             {t('login')}
                           </Button>
                         </Form>
-                      );
+                      )
                     }}
                   </Formik>
                 </Card.Body>
@@ -150,7 +150,7 @@ const Login = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

@@ -1,13 +1,13 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { removeChannelThunk } from '../slices/channelsThunks';
+import React from 'react'
+import { Modal, Button } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { removeChannelThunk } from '../slices/channelsThunks'
 
 const RemoveChannelModal = ({ show, channelId, onHide }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const handleRemove = () => {
     dispatch(removeChannelThunk(channelId))
@@ -19,8 +19,8 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-        });
-        onHide();
+        })
+        onHide()
       })
       .catch(() => {
         toast.error(t('modals.networkError'), {
@@ -29,9 +29,9 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-        });
-      });
-  };
+        })
+      })
+  }
 
   return (
     <Modal show={show} onHide={onHide} centered>
@@ -50,7 +50,7 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
-export default RemoveChannelModal;
+export default RemoveChannelModal

@@ -455,86 +455,86 @@
 // };
 //
 // export default Signup;
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
   Container, Row, Col, Card, Form, Button, Image,
-} from 'react-bootstrap';
-import { Formik } from 'formik';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import getSignupSchema from '../schemas/authSchemas.js';
-import { setCredentials } from '../slices/authSlice.js';
+} from 'react-bootstrap'
+import { Formik } from 'formik'
+import axios from 'axios'
+import { useTranslation } from 'react-i18next'
+import getSignupSchema from '../schemas/authSchemas.js'
+import { setCredentials } from '../slices/authSlice.js'
 
 const Signup = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { isAuthenticated } = useSelector((state) => state.auth)
 
-  const [signupError, setSignupError] = useState(null);
-  const [submittedOnce, setSubmittedOnce] = useState(false);
-  const [passwordTouchedManually, setPasswordTouchedManually] = useState(false);
-  const [confirmPasswordTouchedManually, setConfirmPasswordTouchedManually] = useState(false);
+  const [signupError, setSignupError] = useState(null)
+  const [submittedOnce, setSubmittedOnce] = useState(false)
+  const [passwordTouchedManually, setPasswordTouchedManually] = useState(false)
+  const [confirmPasswordTouchedManually, setConfirmPasswordTouchedManually] = useState(false)
 
-  const [usernameActivated, setUsernameActivated] = useState(false);
-  const usernameInputRef = useRef(null);
+  const [usernameActivated, setUsernameActivated] = useState(false)
+  const usernameInputRef = useRef(null)
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/')
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate])
 
   useEffect(() => {
     if (usernameInputRef.current) {
-      usernameInputRef.current.focus();
+      usernameInputRef.current.focus()
     }
-  }, []);
+  }, [])
 
   const initialValues = {
     username: '',
     password: '',
     confirmPassword: '',
-  };
+  }
 
-  const validationSchema = getSignupSchema(t);
+  const validationSchema = getSignupSchema(t)
 
   const handleFormSubmit = async (values, { setSubmitting, validateForm }) => {
-    setSignupError(null);
-    setSubmittedOnce(true);
+    setSignupError(null)
+    setSubmittedOnce(true)
 
-    const errors = await validateForm();
+    const errors = await validateForm()
 
     if (Object.keys(errors).length > 0) {
       if (errors.username && usernameInputRef.current) {
-        setUsernameActivated(true);
-        usernameInputRef.current.focus();
-        setTimeout(() => setUsernameActivated(false), 300);
+        setUsernameActivated(true)
+        usernameInputRef.current.focus()
+        setTimeout(() => setUsernameActivated(false), 300)
       }
-      setSubmitting(false);
-      return;
+      setSubmitting(false)
+      return
     }
 
     try {
       const response = await axios.post('/api/v1/signup', {
         username: values.username,
         password: values.password,
-      });
-      const { token } = response.data;
-      localStorage.setItem('token', token);
-      dispatch(setCredentials({ token, username: values.username }));
-      navigate('/');
+      })
+      const { token } = response.data
+      localStorage.setItem('token', token)
+      dispatch(setCredentials({ token, username: values.username }))
+      navigate('/')
     } catch (err) {
       if (err.response?.status === 409) {
-        setSignupError(t('errors.userExists'));
+        setSignupError(t('errors.userExists'))
       } else {
-        setSignupError(t('errors.signupFailed'));
+        setSignupError(t('errors.signupFailed'))
       }
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -574,7 +574,7 @@ const Signup = () => {
                     }) => {
                       const showUsernameError = (
                         submittedOnce || touched.username || usernameActivated)
-                            && Boolean(errors.username);
+                            && Boolean(errors.username)
 
                       return (
                         <Form noValidate onSubmit={handleSubmit}>
@@ -587,13 +587,13 @@ const Signup = () => {
                               ref={usernameInputRef}
                               value={values.username}
                               onChange={(e) => {
-                                handleChange(e);
-                                if (usernameActivated) setUsernameActivated(false);
+                                handleChange(e)
+                                if (usernameActivated) setUsernameActivated(false)
                               }}
                               onBlur={(e) => {
-                                handleBlur(e);
-                                // eslint-disable-next-line no-void
-                                void setFieldTouched('username', true, true);
+                                handleBlur(e)
+                                 
+                                void setFieldTouched('username', true, true)
                               }}
                               isInvalid={showUsernameError}
                               style={
@@ -622,8 +622,8 @@ const Signup = () => {
                               value={values.password}
                               onChange={handleChange}
                               onBlur={(e) => {
-                                handleBlur(e);
-                                setPasswordTouchedManually(true);
+                                handleBlur(e)
+                                setPasswordTouchedManually(true)
                               }}
                               isInvalid={
                                         (passwordTouchedManually || submittedOnce) && !!errors.password
@@ -645,8 +645,8 @@ const Signup = () => {
                               value={values.confirmPassword}
                               onChange={handleChange}
                               onBlur={(e) => {
-                                handleBlur(e);
-                                setConfirmPasswordTouchedManually(true);
+                                handleBlur(e)
+                                setConfirmPasswordTouchedManually(true)
                               }}
                               isInvalid={
                                     (confirmPasswordTouchedManually || submittedOnce)
@@ -671,7 +671,7 @@ const Signup = () => {
                             {t('signupButton')}
                           </Button>
                         </Form>
-                      );
+                      )
                     }}
                   </Formik>
                 </Card.Body>
@@ -681,7 +681,7 @@ const Signup = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

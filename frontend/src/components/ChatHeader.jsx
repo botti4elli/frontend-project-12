@@ -1,9 +1,9 @@
-import React from 'react';
-import { Badge } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { Badge } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 
 const ChatHeader = ({ currentChannel, messagesCount }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="chat-header shadow-sm">
@@ -22,7 +22,7 @@ const ChatHeader = ({ currentChannel, messagesCount }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatHeader;
+export default ChatHeader

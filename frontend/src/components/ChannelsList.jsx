@@ -72,22 +72,22 @@
 // };
 //
 // export default ChannelsList;
-import React from 'react';
+import React from 'react'
 import {
   ListGroup, Button, Dropdown, ButtonGroup,
-} from 'react-bootstrap';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { setCurrentChannelId } from '../slices/channelsSlice';
+} from 'react-bootstrap'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { setCurrentChannelId } from '../slices/channelsSlice'
 
 const ChannelsList = ({
   channels, currentChannelId, onAddChannel, onRename, onRemove,
 }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
 
-  const handleSelectChannel = (id) => dispatch(setCurrentChannelId(id));
+  const handleSelectChannel = (id) => dispatch(setCurrentChannelId(id))
 
   return (
     <div className="channels-sidebar">
@@ -99,8 +99,8 @@ const ChannelsList = ({
 
         <ListGroup variant="flush">
           {channels.map((channel) => {
-            const isActive = channel.id === currentChannelId;
-            const variant = isActive ? 'primary' : 'light';
+            const isActive = channel.id === currentChannelId
+            const variant = isActive ? 'primary' : 'light'
 
             return (
               <ListGroup.Item key={channel.id} className="p-0 border-0">
@@ -144,13 +144,13 @@ const ChannelsList = ({
                   )}
                 </Button>
               </ListGroup.Item>
-            );
+            )
           })}
         </ListGroup>
 
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChannelsList;
+export default ChannelsList

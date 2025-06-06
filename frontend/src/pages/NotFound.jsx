@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Image } from 'react-bootstrap';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { Image } from 'react-bootstrap'
 
 const NotFound = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="text-center d-flex flex-column align-items-center mt-5">
@@ -25,7 +25,7 @@ const NotFound = () => {
       </p>
 
     </div>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

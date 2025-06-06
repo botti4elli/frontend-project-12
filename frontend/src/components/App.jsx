@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
-import routes from '../routes.jsx';
-import Header from './Header.jsx';
+import routes from '../routes.jsx'
+import Header from './Header.jsx'
 
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => (
   <BrowserRouter>
@@ -27,6 +27,6 @@ const App = () => (
       progressClassName="bg-success"
     />
   </BrowserRouter>
-);
+)
 
-export default App;
+export default App
