@@ -22,35 +22,78 @@ const ChannelsList = ({
         <Button variant="outline-primary" size="sm" onClick={onAddChannel}>+</Button>
       </div>
       <div className="channels-list-wrapper">
+        {/* <ListGroup variant="flush"> */}
+        {/*  {channels.map((channel) => ( */}
+        {/*    <ListGroup.Item */}
+        {/*      key={channel.id} */}
+        {/*      onClick={() => handleSelectChannel(channel.id)} */}
+        {/*      className={`d-flex justify-content-between align-items-center ${channel.id === currentChannelId ? 'active' : ''}`} */}
+        {/*    > */}
+        {/*      <span className="text-truncate"> */}
+        {/*        <span aria-hidden="true"># </span> */}
+        {/*        {channel.name} */}
+        {/*      </span> */}
+        {/*      {channel.removable && ( */}
+        {/*        <Dropdown as={ButtonGroup}> */}
+        {/*          <Dropdown.Toggle variant="link" size="sm" className="text-decoration-none text-muted p-0"> */}
+        {/*            <BsThreeDotsVertical /> */}
+        {/*          </Dropdown.Toggle> */}
+        {/*          <Dropdown.Menu> */}
+        {/*            <Dropdown.Item onClick={(e) => { e.stopPropagation(); onRename(channel); }}> */}
+        {/*              {t('channel.rename')} */}
+        {/*            </Dropdown.Item> */}
+        {/*            <Dropdown.Item onClick={(e) => { e.stopPropagation(); onRemove(channel); }}> */}
+        {/*              {t('channel.remove')} */}
+        {/*            </Dropdown.Item> */}
+        {/*          </Dropdown.Menu> */}
+        {/*        </Dropdown> */}
+        {/*      )} */}
+        {/*    </ListGroup.Item> */}
+        {/*  ))} */}
+        {/* </ListGroup> */}
         <ListGroup variant="flush">
-          {channels.map((channel) => (
-            <ListGroup.Item
-              key={channel.id}
-              onClick={() => handleSelectChannel(channel.id)}
-              className={`d-flex justify-content-between align-items-center ${channel.id === currentChannelId ? 'active' : ''}`}
-            >
-              <span className="text-truncate">
-                <span aria-hidden="true"># </span>
-                {channel.name}
-              </span>
-              {channel.removable && (
-                <Dropdown as={ButtonGroup}>
-                  <Dropdown.Toggle variant="link" size="sm" className="text-decoration-none text-muted p-0">
-                    <BsThreeDotsVertical />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={(e) => { e.stopPropagation(); onRename(channel); }}>
-                      {t('channel.rename')}
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={(e) => { e.stopPropagation(); onRemove(channel); }}>
-                      {t('channel.remove')}
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              )}
-            </ListGroup.Item>
-          ))}
+          {channels.map((channel) => {
+            const isActive = channel.id === currentChannelId;
+            const variant = isActive ? 'primary' : 'light';
+
+            return (
+              <ListGroup.Item key={channel.id} className="p-0 border-0">
+                <Button
+                  variant={variant}
+                  onClick={() => handleSelectChannel(channel.id)}
+                  className="w-100 rounded-0 text-start d-flex justify-content-between align-items-center"
+                  role="button"
+                >
+                  <span className="text-truncate">
+                    <span aria-hidden="true"># </span>
+                    {channel.name}
+                  </span>
+
+                  {channel.removable && (
+                  <Dropdown as={ButtonGroup} onClick={(e) => e.stopPropagation()}>
+                    <Dropdown.Toggle
+                      variant="link"
+                      size="sm"
+                      className="text-decoration-none text-muted p-0 ms-2"
+                    >
+                      <BsThreeDotsVertical />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => onRename(channel)}>
+                        {t('channel.rename')}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => onRemove(channel)}>
+                        {t('channel.remove')}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  )}
+                </Button>
+              </ListGroup.Item>
+            );
+          })}
         </ListGroup>
+
       </div>
     </div>
   );
