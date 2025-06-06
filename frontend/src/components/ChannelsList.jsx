@@ -30,7 +30,7 @@ const ChannelsList = ({
               className={`d-flex justify-content-between align-items-center ${channel.id === currentChannelId ? 'active' : ''}`}
             >
               <span className="text-truncate">
-                #
+                <span aria-hidden="true">#</span>
                 {channel.name}
               </span>
               {channel.removable && (
