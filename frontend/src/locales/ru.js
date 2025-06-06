@@ -78,6 +78,7 @@ export default {
     channel: {
       remove: 'Удалить',
       rename: 'Переименовать',
+      manage: 'Управление каналом',
     },
   },
 };

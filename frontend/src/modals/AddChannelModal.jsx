@@ -36,10 +36,7 @@ const AddChannelModal = ({ show, onHide }) => {
     onSubmit: async ({ name }, { resetForm, setSubmitting }) => {
       setSubmitAttempted(true);
 
-
       const cleanedName = leoProfanity.clean(name).trim();
-
-
 
       try {
         await dispatch(addChannelThunk({ name: cleanedName })).unwrap();
@@ -75,6 +72,7 @@ const AddChannelModal = ({ show, onHide }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
+  // eslint-disable-next-line no-unused-vars
   const showError = (formik.touched.name || submitAttempted) && !!formik.errors.name;
 
   return (
@@ -83,49 +81,7 @@ const AddChannelModal = ({ show, onHide }) => {
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/* <Form onSubmit={formik.handleSubmit}> */}
-        {/*  <Form.Group controlId="name"> */}
-        {/*    <Form.Label className="visually-hidden">{t('modals.channelName')}</Form.Label> */}
-        {/*    <Form.Control */}
-        {/*      name="name" */}
-        {/*      required */}
-        {/*      ref={inputRef} */}
-        {/*      onChange={formik.handleChange} */}
-        {/*      onBlur={formik.handleBlur} */}
-        {/*      value={formik.values.name} */}
-        {/*      isInvalid={showError} */}
-        {/*      disabled={status === 'loading'} */}
-        {/*      autoComplete="off" */}
-        {/*    /> */}
-        {/*    {showError && ( */}
-        {/*      <Form.Control.Feedback type="invalid"> */}
-        {/*        {formik.errors.name} */}
-        {/*      </Form.Control.Feedback> */}
-        {/*    )} */}
-        {/*  </Form.Group> */}
 
-        {/*  <div className="d-flex justify-content-end mt-3"> */}
-        {/*    <Button */}
-        {/*      variant="secondary" */}
-        {/*      onClick={onHide} */}
-        {/*      className="me-2" */}
-        {/*      disabled={status === 'loading'} */}
-        {/*    > */}
-        {/*      {t('modals.cancel')} */}
-        {/*    </Button> */}
-        {/*    <Button */}
-        {/*      variant="primary" */}
-        {/*      type="submit" */}
-        {/*      disabled={status === 'loading' || !formik.isValid || formik.isSubmitting} */}
-        {/*    > */}
-        {/*      {status === 'loading' ? ( */}
-        {/*        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> */}
-        {/*      ) : ( */}
-        {/*        t('modals.submit') */}
-        {/*      )} */}
-        {/*    </Button> */}
-        {/*  </div> */}
-        {/* </Form> */}
         <Form
           onSubmit={(e) => {
             e.preventDefault();
