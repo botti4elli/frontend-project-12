@@ -32,7 +32,8 @@ export default {
       userExists: 'Такой пользователь уже существует',
       loginFailed: 'Неверные имя пользователя или пароль',
       channelNameLength: 'От 3 до 20 символов',
-      passwordLength: 'Пароль должен содержать от 6 до 20 символов',
+      // passwordLength: 'Пароль должен содержать от 6 до 20 символов',
+      passwordLength: 'Не менее 6 символов',
       // loadingChannels: 'Ошибка загрузки каналов',
       signupFailed: 'Ошибка регистрации. Попробуйте позже',
       loadingDataFailed: 'Ошибка загрузки данных', // есть
