@@ -65,7 +65,8 @@ export default {
     chat: {
       loading: 'Загрузка сообщений...',
       noChannelSelected: 'Канал не выбран',
-      newMessage: 'Введите сообщение',
+      // newMessage: 'Введите сообщение',
+      newMessage: 'Новое сообщение',
       noChannels: 'Нет доступных каналов',
       messageCount_one: '{{count}} сообщение',
       messageCount_few: '{{count}} сообщения',
