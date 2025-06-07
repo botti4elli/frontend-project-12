@@ -8,7 +8,7 @@ const Header = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const { isAuthenticated } = useSelector(state => state.auth)
 
   const handleLogout = () => {
     localStorage.removeItem('token')

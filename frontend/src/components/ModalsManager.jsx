@@ -8,7 +8,7 @@ const RemoveChannelModal = lazy(() => import('../modals/RemoveChannelModal'))
 
 const ModalsManager = () => {
   const dispatch = useDispatch()
-  const modal = useSelector((state) => state.ui.modal)
+  const modal = useSelector(state => state.ui.modal)
 
   if (!modal.type) return null
 

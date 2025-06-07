@@ -12,7 +12,7 @@ const ChannelsList = ({
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleSelectChannel = (id) => dispatch(setCurrentChannelId(id))
+  const handleSelectChannel = id => dispatch(setCurrentChannelId(id))
 
   return (
     <div className="channels-sidebar">
@@ -41,7 +41,7 @@ const ChannelsList = ({
                   </span>
 
                   {channel.removable && (
-                    <Dropdown as={ButtonGroup} onClick={(e) => e.stopPropagation()}>
+                    <Dropdown as={ButtonGroup} onClick={e => e.stopPropagation()}>
                       <Dropdown.Toggle
                         variant="secondary"
                         className="btn btn-secondary btn-sm dropdown-toggle"

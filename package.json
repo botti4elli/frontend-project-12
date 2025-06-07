@@ -37,7 +37,6 @@
     "@babel/core": "^7.27.1",
     "@babel/eslint-parser": "^7.27.0",
     "@babel/preset-react": "^7.26.3",
-    "eslint-plugin-react": "^7.37.5",
     "vite-plugin-add-scripts": "^0.0.9"
   }
 }
