@@ -53,7 +53,8 @@ const AddChannelModal = ({ show, onHide }) => {
         })
 
         onHide()
-      } catch {
+      }
+      catch {
         toast.error(t('modals.networkError'), {
           position: 'top-right',
           autoClose: 3000,
@@ -78,69 +79,69 @@ const AddChannelModal = ({ show, onHide }) => {
   const showError = (formik.touched.name || submitAttempted) && !!formik.errors.name
 
   return (
-      <Modal show={show} centered onHide={onHide}>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('modals.addChannel')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form
-              onSubmit={e => {
-                e.preventDefault()
-                formik.setTouched({ name: true })
-                formik.handleSubmit()
-              }}
-          >
-            <Form.Group controlId="name">
-              <Form.Label className="visually-hidden">{t('modals.channelName')}</Form.Label>
-              <Form.Control
-                  name="name"
-                  required
-                  ref={inputRef}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  isInvalid={showError}
-                  disabled={status === 'loading'}
-                  autoComplete="off"
-                  autoFocus
-              />
-              {showError && (
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.name}
-                  </Form.Control.Feedback>
-              )}
-            </Form.Group>
+    <Modal show={show} centered onHide={onHide}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault()
+            formik.setTouched({ name: true })
+            formik.handleSubmit()
+          }}
+        >
+          <Form.Group controlId="name">
+            <Form.Label className="visually-hidden">{t('modals.channelName')}</Form.Label>
+            <Form.Control
+              name="name"
+              required
+              ref={inputRef}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              isInvalid={showError}
+              disabled={status === 'loading'}
+              autoComplete="off"
+              autoFocus
+            />
+            {showError && (
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.name}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
 
-            <div className="d-flex justify-content-end mt-3">
-              <Button
-                  variant="secondary"
-                  onClick={onHide}
-                  className="me-2"
-                  disabled={status === 'loading'}
-              >
-                {t('modals.cancel')}
-              </Button>
-              <Button
-                  variant="primary"
-                  type="submit"
-                  disabled={status === 'loading' || formik.isSubmitting}
-              >
-                {status === 'loading'
-                    ? (
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                    )
-                    : t('modals.submit')}
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
+          <div className="d-flex justify-content-end mt-3">
+            <Button
+              variant="secondary"
+              onClick={onHide}
+              className="me-2"
+              disabled={status === 'loading'}
+            >
+              {t('modals.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={status === 'loading' || formik.isSubmitting}
+            >
+              {status === 'loading'
+                ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )
+                : t('modals.submit')}
+            </Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
   )
 }
 

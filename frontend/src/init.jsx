@@ -24,16 +24,17 @@ const init = async () => {
       })
 
     console.log('i18n initialized:', i18n.language)
-  } catch (error) {
+  }
+  catch (error) {
     console.error('i18n initialization failed:', error)
   }
 
-    const rootElement = document.getElementById('root')
-    if (!rootElement) {
-        throw new Error('Root element not found!')
-    }
+  const rootElement = document.getElementById('root')
+  if (!rootElement) {
+    throw new Error('Root element not found!')
+  }
 
-    const root = ReactDOM.createRoot(rootElement)
+  const root = ReactDOM.createRoot(rootElement)
   root.render(
     <React.StrictMode>
       <Provider store={store}>

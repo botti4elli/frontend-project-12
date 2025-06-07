@@ -10,15 +10,15 @@ export const initApp = createAsyncThunk(
     dispatch(setMessages(messages))
     return {
       channels,
-      currentChannelId: response.data.currentChannelId ?? channels[0]?.id ?? null
+      currentChannelId: response.data.currentChannelId ?? channels[0]?.id ?? null,
     }
-  }
+  },
 )
 const initSlice = createSlice({
   name: 'init',
   initialState: {
     loading: false,
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -34,6 +34,6 @@ const initSlice = createSlice({
         state.loading = false
         state.error = action.error.message || 'Failed to initialize app'
       })
-  }
+  },
 })
 export default initSlice.reducer

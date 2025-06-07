@@ -26,8 +26,8 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
   }, [show])
 
   const channelNames = channels
-      .filter(c => c.id !== channelId)
-      .map(c => c.name.toLowerCase())
+    .filter(c => c.id !== channelId)
+    .map(c => c.name.toLowerCase())
 
   const validationSchema = getRenameChannelSchema(t, channelNames)
 
@@ -52,7 +52,8 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
           pauseOnHover: true,
         })
         onHide()
-      } catch {
+      }
+      catch {
         toast.error(t('modals.networkError'), {
           position: 'top-right',
           autoClose: 3000,
@@ -66,52 +67,51 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
   })
 
   return (
-      <Modal show={show} onHide={onHide} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('toasts.channelRenamed')}</Modal.Title>
-        </Modal.Header>
-        <Form noValidate onSubmit={formik.handleSubmit}>
-          <Modal.Body>
-            <Form.Group controlId="name">
-              <Form.Label>{t('modals.renameLabel')}</Form.Label>
-              <Form.Control
-                  name="name"
-                  type="text"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.touched.name && !!formik.errors.name}
-                  ref={inputRef}
-                  autoComplete="off"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.name}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={onHide}>
-              {t('modals.cancel')}
-            </Button>
-            <Button
-                type="submit"
-                variant="primary"
-                disabled={formik.isSubmitting || !formik.isValid}
-            >
-              {formik.isSubmitting
-                  ? (
-                      <span
-                          className="spinner-border spinner-border-sm"
-                          role="status"
-                          aria-hidden="true"
-                      />
-                  )
-                  : t('modals.submit')
-              }
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+    <Modal show={show} onHide={onHide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{t('toasts.channelRenamed')}</Modal.Title>
+      </Modal.Header>
+      <Form noValidate onSubmit={formik.handleSubmit}>
+        <Modal.Body>
+          <Form.Group controlId="name">
+            <Form.Label>{t('modals.renameLabel')}</Form.Label>
+            <Form.Control
+              name="name"
+              type="text"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.name && !!formik.errors.name}
+              ref={inputRef}
+              autoComplete="off"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onHide}>
+            {t('modals.cancel')}
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={formik.isSubmitting || !formik.isValid}
+          >
+            {formik.isSubmitting
+              ? (
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )
+              : t('modals.submit')}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
   )
 }
 

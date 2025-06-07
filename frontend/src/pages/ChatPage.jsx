@@ -41,8 +41,8 @@ const ChatPage = () => {
   }, [dispatch])
 
   useSocketEvents(
-      () => setIsSocketConnected(true),
-      () => setIsSocketConnected(false),
+    () => setIsSocketConnected(true),
+    () => setIsSocketConnected(false),
   )
 
   useEffect(() => {
@@ -64,36 +64,36 @@ const ChatPage = () => {
   if (isAppLoading) return null
 
   return (
-      <Container fluid className="d-flex justify-content-center bg-light">
-        <div className="chat-wrapper shadow bg-white rounded p-0">
-          <Row className="h-100 m-0">
-            <Col md={2} className="border-end px-3 d-flex flex-column channels-sidebar">
-              <ChannelsList
-                  channels={channels}
+    <Container fluid className="d-flex justify-content-center bg-light">
+      <div className="chat-wrapper shadow bg-white rounded p-0">
+        <Row className="h-100 m-0">
+          <Col md={2} className="border-end px-3 d-flex flex-column channels-sidebar">
+            <ChannelsList
+              channels={channels}
+              currentChannelId={currentChannelId}
+              onAddChannel={() => dispatch(openModal({ type: 'addChannel' }))}
+              onRename={channel => dispatch(openModal({ type: 'renameChannel', channelId: channel.id }))}
+              onRemove={channel => dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
+            />
+          </Col>
+          <Col md={10} className="chat-column p-0">
+            <ChatHeader currentChannel={currentChannel} messagesCount={currentMessages.length} />
+            <div className="chat-body d-flex flex-column flex-grow-1 overflow-hidden">
+              <MessagesList messages={currentMessages} />
+              <div className="input-form-container p-3 border-top">
+                <MessageInputForm
                   currentChannelId={currentChannelId}
-                  onAddChannel={() => dispatch(openModal({ type: 'addChannel' }))}
-                  onRename={channel => dispatch(openModal({ type: 'renameChannel', channelId: channel.id }))}
-                  onRemove={channel => dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
-              />
-            </Col>
-            <Col md={10} className="chat-column p-0">
-              <ChatHeader currentChannel={currentChannel} messagesCount={currentMessages.length} />
-              <div className="chat-body d-flex flex-column flex-grow-1 overflow-hidden">
-                <MessagesList messages={currentMessages} />
-                <div className="input-form-container p-3 border-top">
-                  <MessageInputForm
-                      currentChannelId={currentChannelId}
-                      username={username}
-                      token={token}
-                      isDisabled={!isSocketConnected}
-                  />
-                </div>
+                  username={username}
+                  token={token}
+                  isDisabled={!isSocketConnected}
+                />
               </div>
-            </Col>
-          </Row>
-        </div>
-        <ModalsManager />
-      </Container>
+            </div>
+          </Col>
+        </Row>
+      </div>
+      <ModalsManager />
+    </Container>
   )
 }
 

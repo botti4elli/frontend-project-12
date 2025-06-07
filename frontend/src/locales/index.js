@@ -1,6 +1,6 @@
 import ru from './ru.js'
 export default {
   ru: {
-    ...ru
-  }
+    ...ru,
+  },
 }

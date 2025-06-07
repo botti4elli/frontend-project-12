@@ -142,86 +142,120 @@
 //     },
 //   },
 // ]
-import js from '@eslint/js'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
+// import js from '@eslint/js'
+// import reactPlugin from 'eslint-plugin-react'
+// import reactHooksPlugin from 'eslint-plugin-react-hooks'
+// import globals from 'globals'
+// import babelParser from '@babel/eslint-parser'
+// import stylisticPlugin from '@stylistic/eslint-plugin'
+//
+// export default [
+//   {
+//     ignores: ['node_modules/**', 'dist/**', 'build/**', 'assets/**']
+//   },
+//
+//   js.configs.recommended,
+//
+//   {
+//     languageOptions: {
+//       ecmaVersion: 'latest',
+//       sourceType: 'module',
+//       parser: babelParser,
+//       parserOptions: {
+//         requireConfigFile: false,
+//         babelOptions: {
+//           presets: ['@babel/preset-react']
+//         }
+//       },
+//       globals: {
+//         ...globals.browser,
+//         ...globals.es2021
+//       }
+//     },
+//     plugins: {
+//       react: reactPlugin,
+//       'react-hooks': reactHooksPlugin,
+//       '@stylistic': stylisticPlugin
+//     },
+//     settings: {
+//       react: {
+//         version: 'detect'
+//       }
+//     },
+//     rules: {
+//       // Приоритетные стилистические правила @stylistic
+//       '@stylistic/semi': ['error', 'never'],
+//       '@stylistic/quotes': ['error', 'single'],
+//       '@stylistic/indent': ['error', 2],
+//       '@stylistic/no-trailing-spaces': 'error',
+//       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+//       '@stylistic/comma-dangle': ['error', 'never'],
+//       '@stylistic/keyword-spacing': ['error', { before: true, after: true }],
+//       '@stylistic/object-curly-spacing': ['error', 'always'],
+//       '@stylistic/space-before-blocks': ['error', 'always'],
+//       '@stylistic/space-in-parens': ['error', 'never'],
+//       '@stylistic/arrow-spacing': ['error', { before: true, after: true }],
+//
+//       // Отключаем конфликтующие стандартные правила
+//       semi: 'off',
+//       quotes: 'off',
+//       indent: 'off',
+//       'no-trailing-spaces': 'off',
+//       'brace-style': 'off',
+//       'comma-dangle': 'off',
+//       'keyword-spacing': 'off',
+//       'object-curly-spacing': 'off',
+//       'space-before-blocks': 'off',
+//       'space-in-parens': 'off',
+//       'arrow-spacing': 'off',
+//
+//       // React-правила
+//       'react/prop-types': 'off',
+//       'react/react-in-jsx-scope': 'off',
+//       'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+//       'react-hooks/rules-of-hooks': 'error',
+//       'react-hooks/exhaustive-deps': 'error',
+//
+//       // Другие правила
+//       'no-console': 'off',
+//       'no-param-reassign': 'off',
+//       'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
+//       'import/extensions': 'off',
+//       'import/no-unresolved': 'off'
+//     }
+//   }
+// ]
 import globals from 'globals'
-import babelParser from '@babel/eslint-parser'
-import stylisticPlugin from '@stylistic/eslint-plugin'
+import jsPlugin from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default [
+  stylistic.configs.recommended,
+  jsPlugin.configs.recommended,
   {
-    ignores: ['node_modules/**', 'dist/**', 'build/**', 'assets/**']
+    files: ['**/*.js', '**/*.jsx'],
   },
-
-  js.configs.recommended,
-
+  {
+    ignores: ['dist/'],
+  },
   {
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          presets: ['@babel/preset-react']
-        }
-      },
       globals: {
         ...globals.browser,
-        ...globals.es2021
-      }
-    },
-    plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      '@stylistic': stylisticPlugin
-    },
-    settings: {
-      react: {
-        version: 'detect'
-      }
+        ...globals.node,
+        ...globals.es2021,
+      },
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
     rules: {
-      // Приоритетные стилистические правила @stylistic
-      '@stylistic/semi': ['error', 'never'],
-      '@stylistic/quotes': ['error', 'single'],
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/no-trailing-spaces': 'error',
-      '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
-      '@stylistic/comma-dangle': ['error', 'never'],
-      '@stylistic/keyword-spacing': ['error', { before: true, after: true }],
-      '@stylistic/object-curly-spacing': ['error', 'always'],
-      '@stylistic/space-before-blocks': ['error', 'always'],
-      '@stylistic/space-in-parens': ['error', 'never'],
-      '@stylistic/arrow-spacing': ['error', { before: true, after: true }],
-
-      // Отключаем конфликтующие стандартные правила
-      semi: 'off',
-      quotes: 'off',
-      indent: 'off',
-      'no-trailing-spaces': 'off',
-      'brace-style': 'off',
-      'comma-dangle': 'off',
-      'keyword-spacing': 'off',
-      'object-curly-spacing': 'off',
-      'space-before-blocks': 'off',
-      'space-in-parens': 'off',
-      'arrow-spacing': 'off',
-
-      // React-правила
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'error',
-
-      // Другие правила
+      // Добавь или отключи нужные правила
       'no-console': 'off',
-      'no-param-reassign': 'off',
-      'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
-      'import/extensions': 'off',
-      'import/no-unresolved': 'off'
-    }
-  }
+    },
+  },
 ]

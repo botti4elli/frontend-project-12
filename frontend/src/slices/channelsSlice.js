@@ -3,7 +3,7 @@ import { initApp } from './initSlice'
 import {
   addChannelThunk,
   removeChannelThunk,
-  renameChannelThunk
+  renameChannelThunk,
 } from './channelsThunks'
 const channelsSlice = createSlice({
   name: 'channels',
@@ -11,7 +11,7 @@ const channelsSlice = createSlice({
     channels: [],
     currentChannelId: null,
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
-    error: null
+    error: null,
   },
   reducers: {
     setCurrentChannelId: (state, action) => {
@@ -19,7 +19,7 @@ const channelsSlice = createSlice({
     },
     addChannel: (state, action) => {
       state.channels.push(action.payload)
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,11 +94,11 @@ const channelsSlice = createSlice({
         state.status = 'failed'
         state.error = action.payload || 'Failed to rename channel'
       })
-  }
+  },
 })
 export const {
   setCurrentChannelId,
-  addChannel
+  addChannel,
 } = channelsSlice.actions
 export const selectChannels = state => state.channels.channels
 export const selectCurrentChannelId = state => state.channels.currentChannelId

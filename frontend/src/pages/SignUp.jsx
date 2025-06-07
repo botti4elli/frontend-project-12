@@ -14,7 +14,7 @@ const Signup = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const { isAuthenticated } = useSelector(state => state.auth)
 
   const [signupError, setSignupError] = useState(null)
   const [submittedOnce, setSubmittedOnce] = useState(false)
@@ -69,10 +69,12 @@ const Signup = () => {
       localStorage.setItem('token', token)
       dispatch(setCredentials({ token, username: values.username }))
       navigate('/')
-    } catch (err) {
+    }
+    catch (err) {
       if (err.response?.status === 409) {
         setSignupError(t('errors.userExists'))
-      } else {
+      }
+      else {
         setSignupError(t('errors.signupFailed'))
       }
       setSubmitting(false)
@@ -80,152 +82,152 @@ const Signup = () => {
   }
 
   return (
-      <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-        <Row className="w-100 justify-content-center">
-          <Col className="col-12 col-md-8 col-xxl-6">
-            <div className="d-flex flex-column align-items-stretch shadow-sm bg-white rounded overflow-hidden border">
-              <div className="d-flex flex-row p-5">
-                <div className="d-flex justify-content-center align-items-center w-50">
-                  <Image
-                      src="/avatar_1.jpg"
-                      alt="Аватар"
-                      width={200}
-                      height={200}
-                      roundedCircle
-                  />
-                </div>
-
-                <Card className="border-0 w-50">
-                  <Card.Body className="p-0 ps-4">
-                    <Card.Title className="mt-3 mb-4 text-center fs-1">{t('register')}</Card.Title>
-
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={handleFormSubmit}
-                    >
-                      {({
-                          handleSubmit,
-                          handleChange,
-                          handleBlur,
-                          values,
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        }) => {
-                        const showUsernameError = (
-                            (submittedOnce || touched.username || usernameActivated)
-                            && Boolean(errors.username)
-                        )
-
-                        return (
-                            <Form noValidate onSubmit={handleSubmit}>
-                              <Form.Floating className="mb-3">
-                                <Form.Control
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    placeholder={t('usernameLabel')}
-                                    ref={usernameInputRef}
-                                    value={values.username}
-                                    onChange={(e) => {
-                                      handleChange(e)
-                                      if (usernameActivated) {
-                                        setUsernameActivated(false)
-                                      }
-                                    }}
-                                    onBlur={(e) => {
-                                      handleBlur(e)
-                                      void setFieldTouched('username', true, true)
-                                    }}
-                                    isInvalid={showUsernameError}
-                                    style={
-                                      showUsernameError && usernameActivated
-                                          ? {
-                                            outline: '2px solid rgba(255,0,0,0.3)',
-                                            outlineOffset: '2px',
-                                            transition: 'outline 0.3s ease',
-                                          }
-                                          : undefined
-                                    }
-                                    autoComplete="username"
-                                />
-                                <label htmlFor="username">{t('usernameLabel')}</label>
-                                <Form.Control.Feedback type="invalid" tooltip>
-                                  {errors.username}
-                                </Form.Control.Feedback>
-                              </Form.Floating>
-
-                              <Form.Floating className="mb-3">
-                                <Form.Control
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    placeholder={t('password')}
-                                    value={values.password}
-                                    onChange={handleChange}
-                                    onBlur={(e) => {
-                                      handleBlur(e)
-                                      setPasswordTouchedManually(true)
-                                    }}
-                                    isInvalid={
-                                        (passwordTouchedManually || submittedOnce)
-                                        && Boolean(errors.password)
-                                    }
-                                    autoComplete="new-password"
-                                />
-                                <label htmlFor="password">{t('password')}</label>
-                                <Form.Control.Feedback type="invalid" tooltip>
-                                  {errors.password}
-                                </Form.Control.Feedback>
-                              </Form.Floating>
-
-                              <Form.Floating className="mb-3">
-                                <Form.Control
-                                    type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    placeholder={t('confirmPassword')}
-                                    value={values.confirmPassword}
-                                    onChange={handleChange}
-                                    onBlur={(e) => {
-                                      handleBlur(e)
-                                      setConfirmPasswordTouchedManually(true)
-                                    }}
-                                    isInvalid={
-                                        (confirmPasswordTouchedManually || submittedOnce)
-                                        && Boolean(errors.confirmPassword)
-                                    }
-                                    autoComplete="new-password"
-                                />
-                                <label htmlFor="confirmPassword">{t('confirmPassword')}</label>
-                                <Form.Control.Feedback type="invalid" tooltip>
-                                  {errors.confirmPassword}
-                                </Form.Control.Feedback>
-                              </Form.Floating>
-
-                              {signupError && <div className="text-danger mb-3">{signupError}</div>}
-
-                              <Button
-                                  variant="outline-primary"
-                                  type="submit"
-                                  className="w-100"
-                                  disabled={isSubmitting}
-                              >
-                                {t('signupButton')}
-                              </Button>
-                            </Form>
-                        )
-                      }}
-                    </Formik>
-                  </Card.Body>
-                </Card>
+    <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <Row className="w-100 justify-content-center">
+        <Col className="col-12 col-md-8 col-xxl-6">
+          <div className="d-flex flex-column align-items-stretch shadow-sm bg-white rounded overflow-hidden border">
+            <div className="d-flex flex-row p-5">
+              <div className="d-flex justify-content-center align-items-center w-50">
+                <Image
+                  src="/avatar_1.jpg"
+                  alt="Аватар"
+                  width={200}
+                  height={200}
+                  roundedCircle
+                />
               </div>
+
+              <Card className="border-0 w-50">
+                <Card.Body className="p-0 ps-4">
+                  <Card.Title className="mt-3 mb-4 text-center fs-1">{t('register')}</Card.Title>
+
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleFormSubmit}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      handleBlur,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldTouched,
+                    }) => {
+                      const showUsernameError = (
+                        (submittedOnce || touched.username || usernameActivated)
+                        && Boolean(errors.username)
+                      )
+
+                      return (
+                        <Form noValidate onSubmit={handleSubmit}>
+                          <Form.Floating className="mb-3">
+                            <Form.Control
+                              type="text"
+                              id="username"
+                              name="username"
+                              placeholder={t('usernameLabel')}
+                              ref={usernameInputRef}
+                              value={values.username}
+                              onChange={(e) => {
+                                handleChange(e)
+                                if (usernameActivated) {
+                                  setUsernameActivated(false)
+                                }
+                              }}
+                              onBlur={(e) => {
+                                handleBlur(e)
+                                void setFieldTouched('username', true, true)
+                              }}
+                              isInvalid={showUsernameError}
+                              style={
+                                showUsernameError && usernameActivated
+                                  ? {
+                                      outline: '2px solid rgba(255,0,0,0.3)',
+                                      outlineOffset: '2px',
+                                      transition: 'outline 0.3s ease',
+                                    }
+                                  : undefined
+                              }
+                              autoComplete="username"
+                            />
+                            <label htmlFor="username">{t('usernameLabel')}</label>
+                            <Form.Control.Feedback type="invalid" tooltip>
+                              {errors.username}
+                            </Form.Control.Feedback>
+                          </Form.Floating>
+
+                          <Form.Floating className="mb-3">
+                            <Form.Control
+                              type="password"
+                              id="password"
+                              name="password"
+                              placeholder={t('password')}
+                              value={values.password}
+                              onChange={handleChange}
+                              onBlur={(e) => {
+                                handleBlur(e)
+                                setPasswordTouchedManually(true)
+                              }}
+                              isInvalid={
+                                (passwordTouchedManually || submittedOnce)
+                                && Boolean(errors.password)
+                              }
+                              autoComplete="new-password"
+                            />
+                            <label htmlFor="password">{t('password')}</label>
+                            <Form.Control.Feedback type="invalid" tooltip>
+                              {errors.password}
+                            </Form.Control.Feedback>
+                          </Form.Floating>
+
+                          <Form.Floating className="mb-3">
+                            <Form.Control
+                              type="password"
+                              id="confirmPassword"
+                              name="confirmPassword"
+                              placeholder={t('confirmPassword')}
+                              value={values.confirmPassword}
+                              onChange={handleChange}
+                              onBlur={(e) => {
+                                handleBlur(e)
+                                setConfirmPasswordTouchedManually(true)
+                              }}
+                              isInvalid={
+                                (confirmPasswordTouchedManually || submittedOnce)
+                                && Boolean(errors.confirmPassword)
+                              }
+                              autoComplete="new-password"
+                            />
+                            <label htmlFor="confirmPassword">{t('confirmPassword')}</label>
+                            <Form.Control.Feedback type="invalid" tooltip>
+                              {errors.confirmPassword}
+                            </Form.Control.Feedback>
+                          </Form.Floating>
+
+                          {signupError && <div className="text-danger mb-3">{signupError}</div>}
+
+                          <Button
+                            variant="outline-primary"
+                            type="submit"
+                            className="w-100"
+                            disabled={isSubmitting}
+                          >
+                            {t('signupButton')}
+                          </Button>
+                        </Form>
+                      )
+                    }}
+                  </Formik>
+                </Card.Body>
+              </Card>
             </div>
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

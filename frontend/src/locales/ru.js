@@ -36,12 +36,12 @@ export default {
       // loadingChannels: 'Ошибка загрузки каналов',
       signupFailed: 'Ошибка регистрации. Попробуйте позже',
       loadingDataFailed: 'Ошибка загрузки данных', // есть
-      sendMessageFailed: 'Не удалось отправить сообщение'
+      sendMessageFailed: 'Не удалось отправить сообщение',
     },
     toasts: {
       channelCreated: 'Канал создан',
       channelRenamed: 'Канал переименован',
-      channelRemoved: 'Канал удалён'
+      channelRemoved: 'Канал удалён',
     },
     modals: {
       required: 'Обязательное поле',
@@ -57,7 +57,7 @@ export default {
       removeChannel: 'Удалить канал',
       remove: 'Удалить',
       confirm: 'Уверены?',
-      renameLabel: 'Имя канала'
+      renameLabel: 'Имя канала',
     },
     chat: {
       loading: 'Загрузка сообщений...',
@@ -70,12 +70,12 @@ export default {
       messageCount_many: '{{count}} сообщений',
       messageCount_other: '{{count}} сообщения',
       disconnected: 'Соединение потеряно', // есть
-      loadingDataFailed: 'Ошибка загрузки данных'
+      loadingDataFailed: 'Ошибка загрузки данных',
     },
     channel: {
       remove: 'Удалить',
       rename: 'Переименовать',
-      manage: 'Управление каналом'
-    }
-  }
+      manage: 'Управление каналом',
+    },
+  },
 }
