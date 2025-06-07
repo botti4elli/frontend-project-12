@@ -17,7 +17,7 @@
 //     .oneOf([yup.ref('password'), null], t('errors.passwordsMustMatch')),
 // });
 // export default getSignupSchema;
-import * as yup from 'yup';
+import * as yup from 'yup'
 const getSignupSchema = t => yup.object().shape({
   username: yup
     .string()
@@ -32,5 +32,5 @@ const getSignupSchema = t => yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], t('errors.passwordsMustMatch'))
     .required(t('errors.required')), // ✅ добавлено
-});
-export default getSignupSchema;
+})
+export default getSignupSchema
