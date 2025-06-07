@@ -73,7 +73,6 @@ const AddChannelModal = ({ show, onHide }) => {
       formik.resetForm()
       setSubmitAttempted(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 
   const showError = (formik.touched.name || submitAttempted) && !!formik.errors.name
