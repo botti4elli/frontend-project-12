@@ -21,10 +21,10 @@ const channelsSlice = createSlice({
       state.channels.push(action.payload)
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
     // Инициализация приложения
-      .addCase(initApp.pending, state => {
+      .addCase(initApp.pending, (state) => {
         state.status = 'loading'
         state.error = null
       })
@@ -39,7 +39,7 @@ const channelsSlice = createSlice({
         state.error = action.error?.message || 'Failed to initialize app'
       })
     // Добавление канала
-      .addCase(addChannelThunk.pending, state => {
+      .addCase(addChannelThunk.pending, (state) => {
         state.status = 'loading'
         state.error = null
       })
@@ -59,7 +59,7 @@ const channelsSlice = createSlice({
         state.error = action.payload || 'Failed to add channel'
       })
     // Удаление канала
-      .addCase(removeChannelThunk.pending, state => {
+      .addCase(removeChannelThunk.pending, (state) => {
         state.status = 'loading'
         state.error = null
       })
@@ -77,7 +77,7 @@ const channelsSlice = createSlice({
         state.error = action.payload || 'Failed to remove channel'
       })
     // Переименование канала
-      .addCase(renameChannelThunk.pending, state => {
+      .addCase(renameChannelThunk.pending, (state) => {
         state.status = 'loading'
         state.error = null
       })

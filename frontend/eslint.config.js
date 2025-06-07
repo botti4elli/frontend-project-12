@@ -280,17 +280,167 @@
 //     },
 //   },
 // ];
+// import js from '@eslint/js'
+// import globals from 'globals'
+// import reactPlugin from 'eslint-plugin-react'
+// import reactHooksPlugin from 'eslint-plugin-react-hooks'
+// import stylisticPlugin from '@stylistic/eslint-plugin'
+// import babelParser from '@babel/eslint-parser'
+// export default [
+//   {
+//     ignores: ['node_modules/**', 'dist/**', 'build/**', 'assets/**'],
+//   },
+//   js.configs.recommended,
+//   {
+//     languageOptions: {
+//       ecmaVersion: 'latest',
+//       sourceType: 'module',
+//       parser: babelParser,
+//       parserOptions: {
+//         requireConfigFile: false,
+//         babelOptions: {
+//           presets: ['@babel/preset-react'],
+//         },
+//       },
+//       globals: {
+//         ...globals.browser,
+//         ...globals.es2021,
+//       },
+//     },
+//     plugins: {
+//       "react": reactPlugin,
+//       'react-hooks': reactHooksPlugin,
+//       '@stylistic': stylisticPlugin,
+//     },
+//     settings: {
+//       react: {
+//         version: 'detect',
+//       },
+//     },
+//     rules: {
+//       // React
+//       'react/prop-types': 'off',
+//       'react/react-in-jsx-scope': 'off',
+//       'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+//       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+//       // React Hooks (теперь работает)
+//       'react-hooks/rules-of-hooks': 'error',
+//       'react-hooks/exhaustive-deps': 'error',
+//       // Common
+//       'no-console': 'off',
+//       'no-param-reassign': 'off',
+//       'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
+//       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+//       // Stylistic (Hexlet)
+//       '@stylistic/semi': ['error', 'never'],
+//       '@stylistic/arrow-parens': ['error', 'as-needed'],
+//       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: false }],
+//       '@stylistic/quote-props': ['error', 'consistent'],
+//       '@stylistic/multiline-ternary': ['error', 'always-multiline'],
+//       '@stylistic/no-trailing-spaces': 'error',
+//       '@stylistic/no-multiple-empty-lines': ['error', { max: 0, maxEOF: 0 }],
+//       '@stylistic/indent': ['error', 2],
+//       '@stylistic/indent-binary-ops': 'error',
+//       // Import (если нужно)
+//       'import/extensions': 'off',
+//       'import/no-unresolved': 'off',
+//     },
+//   },
+// ]
+// import js from '@eslint/js'
+// import globals from 'globals'
+// import reactPlugin from 'eslint-plugin-react'
+// import reactHooksPlugin from 'eslint-plugin-react-hooks'
+// import stylisticPlugin from '@stylistic/eslint-plugin'
+// import babelParser from '@babel/eslint-parser'
+// export default [
+//   {
+//     ignores: ['node_modules/**', 'dist/**', 'build/**', 'assets/**'],
+//   },
+//   js.configs.recommended,
+//   {
+//     languageOptions: {
+//       ecmaVersion: 'latest',
+//       sourceType: 'module',
+//       parser: babelParser,
+//       parserOptions: {
+//         requireConfigFile: false,
+//         babelOptions: {
+//           presets: ['@babel/preset-react'],
+//         },
+//       },
+//       globals: {
+//         ...globals.browser,
+//         ...globals.es2021,
+//       },
+//     },
+//     plugins: {
+//       'react': reactPlugin,
+//       'react-hooks': reactHooksPlugin,
+//       '@stylistic': stylisticPlugin,
+//     },
+//     settings: {
+//       react: {
+//         version: 'detect',
+//       },
+//     },
+//     rules: {
+//       // React
+//       'react/prop-types': 'off',
+//       'react/react-in-jsx-scope': 'off',
+//       'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+//       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+//       // React Hooks
+//       'react-hooks/rules-of-hooks': 'error',
+//       'react-hooks/exhaustive-deps': 'error',
+//       // Common
+//       'no-console': 'off',
+//       'no-param-reassign': 'off',
+//       'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
+//       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^React$' }],
+//       // Stylistic (Хекслет)
+//       '@stylistic/semi': ['error', 'never'],
+//       '@/arrow-parens': ['error', 'as-needed'], // items.map(item => ...)
+//       '@stylistic/brace-style': ['error', '1tbs'], // else { на новой строке
+//       '@stylistic/quote-props': ['error', 'consistent'], // { 'Authorization': token }
+//       '@stylistic/multiline-ternary': ['error', 'always-multiline'],
+//       '@stylistic/no-trailing-spaces': 'error',
+//       '@stylistic/no-multiple-empty-lines': ['error', { max: 0, maxEOF: 0 }],
+//       '@stylistic/indent': ['error', 2],
+//       '@stylistic/indent-binary-ops': 'error',
+//       '@stylistic/quotes': ['error', 'single'],
+//       // Import (если используешь)
+//       'import/extensions': 'off',
+//       'import/no-unresolved': 'off',
+//     },
+//   },
+// ]
 import js from '@eslint/js'
 import globals from 'globals'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import stylisticPlugin from '@stylistic/eslint-plugin'
 import babelParser from '@babel/eslint-parser'
+
 export default [
   {
     ignores: ['node_modules/**', 'dist/**', 'build/**', 'assets/**'],
   },
   js.configs.recommended,
+  stylisticPlugin.configs.customize({
+    rules: {
+      'indent': 2,
+      'semi': false,
+      'arrow-parens': 'as-needed',
+      'brace-style': ['1tbs'],
+      'quote-props': 'consistent',
+      'multiline-ternary': 'always-multiline',
+      'no-trailing-spaces': true,
+      'no-multiple-empty-lines': { max: 0, maxEOF: 0 },
+      'indent-binary-ops': true,
+      'quotes': ['single'],
+    },
+  }),
   {
     languageOptions: {
       ecmaVersion: 'latest',
@@ -308,7 +458,7 @@ export default [
       },
     },
     plugins: {
-      "react": reactPlugin,
+      'react': reactPlugin,
       'react-hooks': reactHooksPlugin,
       '@stylistic': stylisticPlugin,
     },
@@ -323,25 +473,15 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
-      // React Hooks (теперь работает)
+      // React Hooks
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
       // Common
       'no-console': 'off',
       'no-param-reassign': 'off',
       'no-underscore-dangle': ['error', { allow: ['__dirname', '__filename'] }],
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      // Stylistic (Hexlet)
-      '@stylistic/semi': ['error', 'never'],
-      '@stylistic/arrow-parens': ['error', 'as-needed'],
-      '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: false }],
-      '@stylistic/quote-props': ['error', 'consistent'],
-      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
-      '@stylistic/no-trailing-spaces': 'error',
-      '@stylistic/no-multiple-empty-lines': ['error', { max: 0, maxEOF: 0 }],
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/indent-binary-ops': 'error',
-      // Import (если нужно)
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^React$' }],
+      // Import (если используешь)
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
     },

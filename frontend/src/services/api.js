@@ -4,7 +4,7 @@ const getAuthHeaders = token => ({
     Authorization: `Bearer ${token}`,
   },
 })
-const fetchInitialData = async token => {
+const fetchInitialData = async (token) => {
   const headers = getAuthHeaders(token)
   const [channelsRes, messagesRes] = await Promise.all([
     axios.get('/api/v1/channels', headers),

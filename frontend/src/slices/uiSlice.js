@@ -14,7 +14,7 @@ const uiSlice = createSlice({
       state.modal.type = type
       state.modal.channelId = channelId
     },
-    closeModal: state => {
+    closeModal: (state) => {
       state.modal = { type: null, channelId: null }
     },
   },

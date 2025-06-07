@@ -12,7 +12,7 @@ const useSocketEvents = (onConnect, onDisconnect) => {
     return () => socket.off('newMessage', handleNewMessage)
   }, [dispatch])
   useEffect(() => {
-    const handleNewChannel = channel => {
+    const handleNewChannel = (channel) => {
       dispatch(addChannel(channel))
       // dispatch(setCurrentChannelId(channel.id));
     }

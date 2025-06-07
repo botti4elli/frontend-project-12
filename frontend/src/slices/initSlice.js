@@ -21,13 +21,13 @@ const initSlice = createSlice({
     error: null,
   },
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(initApp.pending, state => {
+      .addCase(initApp.pending, (state) => {
         state.loading = true
         state.error = null
       })
-      .addCase(initApp.fulfilled, state => {
+      .addCase(initApp.fulfilled, (state) => {
         state.loading = false
       })
       .addCase(initApp.rejected, (state, action) => {
