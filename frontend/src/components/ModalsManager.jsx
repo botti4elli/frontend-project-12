@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal } from '../slices/uiSlice'
 

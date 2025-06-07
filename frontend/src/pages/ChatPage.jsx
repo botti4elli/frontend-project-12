@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import {
   Container, Row, Col,
 } from 'react-bootstrap'
@@ -30,7 +30,6 @@ const ChatPage = () => {
   const isAppLoading = useSelector((state) => state.init.loading)
   const isAppError = useSelector((state) => state.init.error)
 
-  // const modal = useSelector((state) => state.ui.modal);
   const currentChannel = channels.find((c) => c.id === currentChannelId)
   const currentMessages = messages.filter((m) => m.channelId === currentChannelId)
 
@@ -51,7 +50,6 @@ const ChatPage = () => {
     }
   }, [isAppError, t])
 
-  // Disconnect notice
   useEffect(() => {
     if (!isSocketConnected && !hasShownDisconnectToast.current) {
       toast.warning(t('chat.disconnected'))

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const MessagesList = ({ messages }) => (
   <div className="messages-container px-3 py-2 overflow-auto flex-grow-1">
     {messages.map((msg) => (

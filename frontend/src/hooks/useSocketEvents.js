@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import socket from '../services/socket'
 import { addMessage } from '../slices/messagesSlice'
 import { addChannel } from '../slices/channelsSlice'
-// import { addChannel, setCurrentChannelId } from '../slices/channelsSlice';
 const useSocketEvents = (onConnect, onDisconnect) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -14,7 +13,6 @@ const useSocketEvents = (onConnect, onDisconnect) => {
   useEffect(() => {
     const handleNewChannel = (channel) => {
       dispatch(addChannel(channel))
-      // dispatch(setCurrentChannelId(channel.id));
     }
     socket.on('newChannel', handleNewChannel)
     return () => socket.off('newChannel', handleNewChannel)

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Badge } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
