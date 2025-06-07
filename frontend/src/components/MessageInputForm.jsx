@@ -59,8 +59,7 @@ const MessageInputForm = ({ isDisabled }) => {
             } else {
                 toast.error(t('errors.sendMessageFailed'))
             }
-        }
-        finally {
+        } finally {
             setIsSubmitting(false)
         }
     }
