@@ -10,6 +10,6 @@ export default configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
     init: initReducer,
-    ui: uiReducer,
-  },
+    ui: uiReducer
+  }
 })

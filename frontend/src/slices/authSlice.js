@@ -4,7 +4,7 @@ const storedUsername = localStorage.getItem('username')
 const initialState = {
   token: storedToken,
   username: storedUsername,
-  isAuthenticated: !!storedToken,
+  isAuthenticated: !!storedToken
 }
 const authSlice = createSlice({
   name: 'auth',
@@ -24,8 +24,8 @@ const authSlice = createSlice({
       state.isAuthenticated = false
       localStorage.removeItem('token')
       localStorage.removeItem('username')
-    },
-  },
+    }
+  }
 })
 export const { setCredentials, logout } = authSlice.actions
 // Селекторы

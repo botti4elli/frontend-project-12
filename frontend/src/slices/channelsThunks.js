@@ -11,16 +11,15 @@ export const addChannelThunk = createAsyncThunk(
         { name },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+            Authorization: `Bearer ${token}`
+          }
+        }
       )
       return response.data // новый канал
-    }
-    catch (err) {
+    } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message || 'Failed to add channel')
     }
-  },
+  }
 )
 // Удаление канала
 export const removeChannelThunk = createAsyncThunk(
@@ -30,15 +29,14 @@ export const removeChannelThunk = createAsyncThunk(
       const { token } = getState().auth
       await axios.delete(`/api/v1/channels/${channelId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       })
       return channelId // возвращаем id удаленного канала
-    }
-    catch (err) {
+    } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message || 'Failed to remove channel')
     }
-  },
+  }
 )
 // Переименование канала
 export const renameChannelThunk = createAsyncThunk(
@@ -51,14 +49,13 @@ export const renameChannelThunk = createAsyncThunk(
         { name },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+            Authorization: `Bearer ${token}`
+          }
+        }
       )
       return response.data // обновлённый канал
-    }
-    catch (err) {
+    } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message || 'Failed to rename channel')
     }
-  },
+  }
 )

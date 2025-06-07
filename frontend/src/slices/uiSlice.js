@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   modal: {
     type: null, // 'addChannel', 'removeChannel', 'renameChannel'
-    channelId: null,
-  },
+    channelId: null
+  }
 }
 const uiSlice = createSlice({
   name: 'ui',
@@ -16,8 +16,8 @@ const uiSlice = createSlice({
     },
     closeModal: (state) => {
       state.modal = { type: null, channelId: null }
-    },
-  },
+    }
+  }
 })
 export const { openModal, closeModal } = uiSlice.actions
 export default uiSlice.reducer

@@ -33,7 +33,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig({
   plugins: [
     react(),
-    visualizer({ open: true }),
+    visualizer({ open: true })
   ],
   build: {
     outDir: 'dist',
@@ -46,24 +46,24 @@ export default defineConfig({
           formik: ['formik', 'yup'],
           i18n: ['i18next', 'react-i18next'],
           bootstrap: ['react-bootstrap'],
-          toastify: ['react-toastify'],
-        },
-      },
-    },
+          toastify: ['react-toastify']
+        }
+      }
+    }
   },
   server: {
     port: 5002,
     proxy: {
       // Проксируем REST API
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5001'
       },
       // Проксируем WebSocket соединения
       '/socket.io': {
         target: 'ws://localhost:5001',
         ws: true,
-        rewriteWsOrigin: true,
-      },
-    },
-  },
+        rewriteWsOrigin: true
+      }
+    }
+  }
 })
