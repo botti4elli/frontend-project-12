@@ -361,43 +361,41 @@ const ChannelsList = ({
         {/*    ) */}
         {/*  })} */}
         {/* </ListGroup> */}
-        <ListGroup variant="flush">
+        <ul className="list-unstyled mb-0">
           {channels.map((channel) => {
             const isActive = channel.id === currentChannelId
 
             return (
-              <ListGroup.Item key={channel.id} className="p-0 border-0">
-                <li className="nav-item w-100 d-flex align-items-center">
-                  <button
-                    type="button"
-                    className={`w-100 rounded-0 text-start btn ${isActive ? 'btn-primary' : 'btn-light'}`}
-                    onClick={e => handleSelectChannel(channel.id, e)}
-                  >
-                    <span className="me-1">#</span>
-                    {channel.name}
-                  </button>
+              <li key={channel.id} className="nav-item w-100 d-flex align-items-center">
+                <button
+                  type="button"
+                  className={`w-100 rounded-0 text-start btn ${isActive ? 'btn-primary' : 'btn-light'}`}
+                  onClick={e => handleSelectChannel(channel.id, e)}
+                >
+                  <span className="me-1">#</span>
+                  {channel.name}
+                </button>
 
-                  {channel.removable && isActive && (
-                    <Dropdown onClick={e => e.stopPropagation()}>
-                      <Dropdown.Toggle as={CustomToggle} aria-label={t('channel.manage')}>
-                        <BsThreeDotsVertical />
-                      </Dropdown.Toggle>
+                {channel.removable && isActive && (
+                  <Dropdown onClick={e => e.stopPropagation()}>
+                    <Dropdown.Toggle as={CustomToggle} aria-label={t('channel.manage')}>
+                      <BsThreeDotsVertical />
+                    </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => onRename(channel)}>
-                          {t('channel.rename')}
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={() => onRemove(channel)}>
-                          {t('channel.remove')}
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  )}
-                </li>
-              </ListGroup.Item>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => onRename(channel)}>
+                        {t('channel.rename')}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => onRemove(channel)}>
+                        {t('channel.remove')}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )}
+              </li>
             )
           })}
-        </ListGroup>
+        </ul>
 
       </div>
     </div>
