@@ -296,16 +296,49 @@ const ChannelsList = ({
             const isActive = channel.id === currentChannelId
 
             return (
+              // <ListGroup.Item
+              //   key={channel.id}
+              //   className="p-0 border-0"
+              //   onClick={e => handleSelectChannel(channel.id, e)}
+              // >
+              //   <div className={`d-flex align-items-center w-100 rounded-0 text-start ${isActive ? 'bg-primary text-white' : 'bg-light'}`}>
+              //     <span className="text-truncate ps-3 py-2 flex-grow-1">
+              //       <span aria-hidden="true"># </span>
+              //       {channel.name}
+              //     </span>
+              //
+              //     {channel.removable && isActive && (
+              //       <Dropdown onClick={e => e.stopPropagation()}>
+              //         <Dropdown.Toggle as={CustomToggle}>
+              //           <BsThreeDotsVertical />
+              //         </Dropdown.Toggle>
+              //
+              //         <Dropdown.Menu>
+              //           <Dropdown.Item onClick={() => onRename(channel)}>
+              //             {t('channel.rename')}
+              //           </Dropdown.Item>
+              //           <Dropdown.Item onClick={() => onRemove(channel)}>
+              //             {t('channel.remove')}
+              //           </Dropdown.Item>
+              //         </Dropdown.Menu>
+              //       </Dropdown>
+              //     )}
+              //   </div>
+              // </ListGroup.Item>
               <ListGroup.Item
                 key={channel.id}
                 className="p-0 border-0"
-                onClick={e => handleSelectChannel(channel.id, e)}
               >
-                <div className={`d-flex align-items-center w-100 rounded-0 text-start ${isActive ? 'bg-primary text-white' : 'bg-light'}`}>
-                  <span className="text-truncate ps-3 py-2 flex-grow-1">
+                <div className="d-flex align-items-center w-100">
+                  <Button
+                    onClick={e => handleSelectChannel(channel.id, e)}
+                    variant={isActive ? 'primary' : 'light'}
+                    className="text-start flex-grow-1 text-truncate rounded-0 ps-3 py-2 border-0"
+                    role="button"
+                  >
                     <span aria-hidden="true"># </span>
                     {channel.name}
-                  </span>
+                  </Button>
 
                   {channel.removable && isActive && (
                     <Dropdown onClick={e => e.stopPropagation()}>
