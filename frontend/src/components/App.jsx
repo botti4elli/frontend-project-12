@@ -15,18 +15,18 @@ const App = () => (
       ))}
     </Routes>
 
-    {/*  Кнопка для генерации ошибки */}
-    <div className="text-center mt-4">
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={() => {
-          throw new Error('Test error from Rollbar button')
-        }}
-      >
-        Throw test error
-      </button>
-    </div>
+    {/* /!*  Кнопка для генерации ошибки *!/ */}
+    {/* <div className="text-center mt-4"> */}
+    {/*  <button */}
+    {/*    type="button" */}
+    {/*    className="btn btn-danger" */}
+    {/*    onClick={() => { */}
+    {/*      throw new Error('Test error from Rollbar button') */}
+    {/*    }} */}
+    {/*  > */}
+    {/*    Throw test error */}
+    {/*  </button> */}
+    {/* </div> */}
 
     <ToastContainer
       position="top-right"
