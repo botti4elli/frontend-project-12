@@ -48,16 +48,16 @@
 // }
 //
 // export default init
-import i18next from 'i18next'
-import { I18nextProvider, initReactI18next } from 'react-i18next'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { RollbarProvider, ErrorBoundary } from '@rollbar/react'
+import { ErrorBoundary } from '@rollbar/react' // ✅ только ErrorBoundary
+import rollbar from './rollbar/rollbarConfig.js'
 import store from './store.js'
 import App from './components/App'
+import i18next from 'i18next'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
 import resources from './locales/index.js'
-import rollbar from './rollbar/rollbarConfig.js'
 
 const init = async () => {
   const i18n = i18next.createInstance()
@@ -74,8 +74,6 @@ const init = async () => {
           escapeValue: false,
         },
       })
-
-    console.log('i18n initialized:', i18n.language)
   }
   catch (error) {
     console.error('i18n initialization failed:', error)
@@ -89,15 +87,13 @@ const init = async () => {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <React.StrictMode>
-      <RollbarProvider instance={rollbar}>
-        <ErrorBoundary>
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <App />
-            </I18nextProvider>
-          </Provider>
+      <Provider store={store}>
+        <ErrorBoundary rollbar={rollbar}>
+          <I18nextProvider i18n={i18n}>
+            <App />
+          </I18nextProvider>
         </ErrorBoundary>
-      </RollbarProvider>
+      </Provider>
     </React.StrictMode>,
   )
 }
