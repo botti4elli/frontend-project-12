@@ -250,7 +250,7 @@ import React from 'react'
 import {
   ListGroup, Button, Dropdown,
 } from 'react-bootstrap'
-import { BsCaretDownFill, BsThreeDotsVertical } from 'react-icons/bs'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setCurrentChannelId } from '../slices/channelsSlice'
@@ -261,48 +261,45 @@ const ChannelsList = ({
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleSelectChannel = (id, e) => {
-    if (!e.target.closest('.dropdown')) {
-      dispatch(setCurrentChannelId(id))
-    }
+  const handleSelectChannel = (id) => {
+    dispatch(setCurrentChannelId(id))
   }
 
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
-    <a
-      href="#"
+    <button
+      type="button"
+      className="btn btn-light ms-2"
       ref={ref}
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
         onClick(e)
       }}
-      className="text-decoration-none text-secondary p-1"
     >
       <span className="visually-hidden">{t('channel.manage')}</span>
-      <span className="ms-1 text-white">
-        <BsCaretDownFill size="12" />
-      </span>
-    </a>
+      <BsThreeDotsVertical />
+    </button>
   ))
 
   return (
-    <div className="channels-sidebar">
-      <div className="channels-header d-flex justify-content-between align-items-center mb-3">
-        <h5 className="mb-0">{t('channels')}</h5>
+    <div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <span>{t('channels')}</span>
         <Button variant="outline-primary" size="sm" onClick={onAddChannel}>+</Button>
       </div>
 
-      <div className="channels-list-wrapper">
-        <ListGroup as="ul" variant="flush">
-          {channels.map((channel) => {
-            const isActive = channel.id === currentChannelId
+      <ListGroup as="ul" variant="flush">
+        {channels.map((channel) => {
+          const isActive = channel.id === currentChannelId
+          const variant = isActive ? 'primary' : 'light'
 
-            return (
-              <ListGroup.Item as="li" key={channel.id} className="nav-item w-100 p-0 border-0 d-flex align-items-center">
+          return (
+            <ListGroup.Item as="li" key={channel.id} className="nav-item w-100 px-0 py-1">
+              <div className="d-flex align-items-center">
                 <button
                   type="button"
-                  className={`w-100 rounded-0 text-start btn ${isActive ? 'btn-primary' : 'btn-light'}`}
-                  onClick={e => handleSelectChannel(channel.id, e)}
+                  className={`btn w-100 text-start ${isActive ? 'btn-primary' : 'btn-light'}`}
+                  onClick={() => handleSelectChannel(channel.id)}
                 >
                   <span className="me-1">#</span>
                   {channel.name}
@@ -310,9 +307,7 @@ const ChannelsList = ({
 
                 {channel.removable && isActive && (
                   <Dropdown onClick={e => e.stopPropagation()}>
-                    <Dropdown.Toggle as={CustomToggle} aria-label={t('channel.manage')}>
-                      <BsThreeDotsVertical />
-                    </Dropdown.Toggle>
+                    <Dropdown.Toggle as={CustomToggle} />
 
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => onRename(channel)}>
@@ -324,11 +319,11 @@ const ChannelsList = ({
                     </Dropdown.Menu>
                   </Dropdown>
                 )}
-              </ListGroup.Item>
-            )
-          })}
-        </ListGroup>
-      </div>
+              </div>
+            </ListGroup.Item>
+          )
+        })}
+      </ListGroup>
     </div>
   )
 }
