@@ -43,10 +43,7 @@ const channelsSlice = createSlice({
         state.status = 'loading'
         state.error = null
       })
-      // .addCase(addChannelThunk.fulfilled, (state) => {
-      //   state.status = 'succeeded';
-      //   state.error = null;
-      // })
+
       .addCase(addChannelThunk.fulfilled, (state, action) => {
         const newChannel = action.payload
         // state.channels.push(newChannel);

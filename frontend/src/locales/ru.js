@@ -31,11 +31,9 @@ export default {
       userExists: 'Такой пользователь уже существует',
       loginFailed: 'Неверные имя пользователя или пароль',
       channelNameLength: 'От 3 до 20 символов',
-      // passwordLength: 'Пароль должен содержать от 6 до 20 символов',
       passwordLength: 'Не менее 6 символов',
-      // loadingChannels: 'Ошибка загрузки каналов',
       signupFailed: 'Ошибка регистрации. Попробуйте позже',
-      loadingDataFailed: 'Ошибка загрузки данных', // есть
+      loadingDataFailed: 'Ошибка загрузки данных',
       sendMessageFailed: 'Не удалось отправить сообщение',
     },
     toasts: {
@@ -52,7 +50,7 @@ export default {
       channelName: 'Имя канала',
       cancel: 'Отменить',
       submit: 'Отправить',
-      networkError: 'Ошибка сети, попробуйте позже', // есть
+      networkError: 'Ошибка сети, попробуйте позже',
       renameChannel: 'Переименовать канал',
       removeChannel: 'Удалить канал',
       remove: 'Удалить',
@@ -62,14 +60,13 @@ export default {
     chat: {
       loading: 'Загрузка сообщений...',
       noChannelSelected: 'Канал не выбран',
-      // newMessage: 'Введите сообщение',
       newMessage: 'Новое сообщение',
       noChannels: 'Нет доступных каналов',
       messageCount_one: '{{count}} сообщение',
       messageCount_few: '{{count}} сообщения',
       messageCount_many: '{{count}} сообщений',
       messageCount_other: '{{count}} сообщения',
-      disconnected: 'Соединение потеряно', // есть
+      disconnected: 'Соединение потеряно',
       loadingDataFailed: 'Ошибка загрузки данных',
     },
     channel: {
