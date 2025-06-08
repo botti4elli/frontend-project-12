@@ -15,7 +15,13 @@ const App = () => (
       ))}
     </Routes>
 
-    {/* /!*  Кнопка для генерации ошибки *!/ */}
+      function TestError() {
+      const a = null;
+      return a.hello();
+  }
+
+
+      {/* /!*  Кнопка для генерации ошибки *!/ */}
     {/* <div className="text-center mt-4"> */}
     {/*  <button */}
     {/*    type="button" */}
