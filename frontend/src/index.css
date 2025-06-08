@@ -138,3 +138,23 @@ html, body, #root {
         padding: 0.75rem;
     }
 }
+
+
+/* Дополнительные стили для выпадающего меню */
+.dropdown-menu {
+    min-width: 120px;
+    padding: 0.25rem 0;
+}
+
+.dropdown-item-text {
+    padding: 0.25rem 1rem;
+    cursor: pointer;
+}
+
+.dropdown-item-text:hover {
+    background-color: #f8f9fa;
+}
+
+.text-danger {
+    color: #dc3545;
+}
