@@ -267,7 +267,7 @@ const ChannelsList = ({
     }
   }
 
-  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+  const CustomToggle = React.forwardRef(({ onClick }, ref) => (
     <a
       href="#"
       ref={ref}
@@ -279,8 +279,9 @@ const ChannelsList = ({
       className="text-decoration-none text-secondary p-1"
     >
       <span className="visually-hidden">{t('channel.manage')}</span>
-      <span className="ms-1 text-white"><BsCaretDownFill size="12" /></span>
-      {children}
+      <span className="ms-1 text-white">
+        <BsCaretDownFill size="12" />
+      </span>
     </a>
   ))
 
@@ -290,83 +291,14 @@ const ChannelsList = ({
         <h5 className="mb-0">{t('channels')}</h5>
         <Button variant="outline-primary" size="sm" onClick={onAddChannel}>+</Button>
       </div>
+
       <div className="channels-list-wrapper">
-        {/* <ListGroup variant="flush"> */}
-        {/*  {channels.map((channel) => { */}
-        {/*    const isActive = channel.id === currentChannelId */}
-
-        {/*    return ( */}
-        {/*      // <ListGroup.Item */}
-        {/*      //   key={channel.id} */}
-        {/*      //   className="p-0 border-0" */}
-        {/*      //   onClick={e => handleSelectChannel(channel.id, e)} */}
-        {/*      // > */}
-        {/*      //   <div className={`d-flex align-items-center w-100 rounded-0 text-start ${isActive ? 'bg-primary text-white' : 'bg-light'}`}> */}
-        {/*      //     <span className="text-truncate ps-3 py-2 flex-grow-1"> */}
-        {/*      //       <span aria-hidden="true"># </span> */}
-        {/*      //       {channel.name} */}
-        {/*      //     </span> */}
-        {/*      // */}
-        {/*      //     {channel.removable && isActive && ( */}
-        {/*      //       <Dropdown onClick={e => e.stopPropagation()}> */}
-        {/*      //         <Dropdown.Toggle as={CustomToggle}> */}
-        {/*      //           <BsThreeDotsVertical /> */}
-        {/*      //         </Dropdown.Toggle> */}
-        {/*      // */}
-        {/*      //         <Dropdown.Menu> */}
-        {/*      //           <Dropdown.Item onClick={() => onRename(channel)}> */}
-        {/*      //             {t('channel.rename')} */}
-        {/*      //           </Dropdown.Item> */}
-        {/*      //           <Dropdown.Item onClick={() => onRemove(channel)}> */}
-        {/*      //             {t('channel.remove')} */}
-        {/*      //           </Dropdown.Item> */}
-        {/*      //         </Dropdown.Menu> */}
-        {/*      //       </Dropdown> */}
-        {/*      //     )} */}
-        {/*      //   </div> */}
-        {/*      // </ListGroup.Item> */}
-        {/*      <ListGroup.Item */}
-        {/*        key={channel.id} */}
-        {/*        className="p-0 border-0" */}
-        {/*      > */}
-        {/*        <div className="d-flex align-items-center w-100"> */}
-        {/*          <Button */}
-        {/*            onClick={e => handleSelectChannel(channel.id, e)} */}
-        {/*            variant={isActive ? 'primary' : 'light'} */}
-        {/*            className="text-start flex-grow-1 text-truncate rounded-0 ps-3 py-2 border-0" */}
-        {/*            role="button" */}
-        {/*          > */}
-        {/*            <span aria-hidden="true"># </span> */}
-        {/*            {channel.name} */}
-        {/*          </Button> */}
-
-        {/*          {channel.removable && isActive && ( */}
-        {/*            <Dropdown onClick={e => e.stopPropagation()}> */}
-        {/*              <Dropdown.Toggle as={CustomToggle}> */}
-        {/*                <BsThreeDotsVertical /> */}
-        {/*              </Dropdown.Toggle> */}
-
-        {/*              <Dropdown.Menu> */}
-        {/*                <Dropdown.Item onClick={() => onRename(channel)}> */}
-        {/*                  {t('channel.rename')} */}
-        {/*                </Dropdown.Item> */}
-        {/*                <Dropdown.Item onClick={() => onRemove(channel)}> */}
-        {/*                  {t('channel.remove')} */}
-        {/*                </Dropdown.Item> */}
-        {/*              </Dropdown.Menu> */}
-        {/*            </Dropdown> */}
-        {/*          )} */}
-        {/*        </div> */}
-        {/*      </ListGroup.Item> */}
-        {/*    ) */}
-        {/*  })} */}
-        {/* </ListGroup> */}
-        <ul className="list-unstyled mb-0">
+        <ListGroup as="ul" variant="flush">
           {channels.map((channel) => {
             const isActive = channel.id === currentChannelId
 
             return (
-              <li key={channel.id} className="nav-item w-100 d-flex align-items-center">
+              <ListGroup.Item as="li" key={channel.id} className="nav-item w-100 p-0 border-0 d-flex align-items-center">
                 <button
                   type="button"
                   className={`w-100 rounded-0 text-start btn ${isActive ? 'btn-primary' : 'btn-light'}`}
@@ -392,11 +324,10 @@ const ChannelsList = ({
                     </Dropdown.Menu>
                   </Dropdown>
                 )}
-              </li>
+              </ListGroup.Item>
             )
           })}
-        </ul>
-
+        </ListGroup>
       </div>
     </div>
   )
