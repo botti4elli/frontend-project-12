@@ -47,7 +47,7 @@ const App = () => (
     </Routes>
 
     {/* Кнопка для отправки тестовой ошибки в Rollbar */}
-    {process.env.NODE_ENV !== 'test' && (
+    {import.meta.env.MODE !== 'test' && (
       <div className="text-center mt-4">
         <button
           type="button"
