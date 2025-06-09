@@ -24,10 +24,8 @@ stop:
 	@echo "Killing process on port 5001 (backend)"
 	@lsof -ti :5001 | xargs kill -9 || true
 
-# Превью (для проверки собранного приложения)
-preview:
-	cd frontend && npm run preview
 
 # Линтинг
 lint:
-	npx eslint .
+	cd frontend && npx eslint .
+
