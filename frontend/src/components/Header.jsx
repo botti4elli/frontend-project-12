@@ -1,20 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { logout } from '../slices/authSlice'
+import useAuth from '../hooks/useAuth.js'
+import { selectToken } from '../slices/authSlice.js'
 
 const Header = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { isAuthenticated } = useSelector(state => state.auth)
+  const token = useSelector(selectToken)
+  const { logout } = useAuth()
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    dispatch(logout())
-    navigate('/login')
-  }
+  const isAuthenticated = Boolean(token)
 
   return (
     <header className="bg-white text-dark py-3 border-bottom">
@@ -23,7 +19,7 @@ const Header = () => {
           Hexlet Chat
         </Link>
         {isAuthenticated && (
-          <Button variant="outline-primary" onClick={handleLogout}>
+          <Button variant="outline-primary" onClick={logout}>
             {t('logout')}
           </Button>
         )}

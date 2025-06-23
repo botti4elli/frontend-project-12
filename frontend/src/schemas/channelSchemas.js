@@ -11,6 +11,7 @@ export const getAddChannelSchema = (t, existingNames) => yup.object().shape({
 export const getRenameChannelSchema = (t, otherNames) => yup.object().shape({
   name: yup
     .string()
+    .trim()
     .required(t('modals.required'))
     .min(3, t('modals.minLength'))
     .max(20, t('modals.maxLength'))

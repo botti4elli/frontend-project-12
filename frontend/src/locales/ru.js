@@ -1,5 +1,6 @@
 export default {
   translation: {
+    logoAlt: 'Логотип',
     welcome: 'Добро пожаловать!',
     login: 'Войти',
     username: 'Ваш ник',
@@ -35,8 +36,11 @@ export default {
       signupFailed: 'Ошибка регистрации. Попробуйте позже',
       loadingDataFailed: 'Ошибка загрузки данных',
       sendMessageFailed: 'Не удалось отправить сообщение',
+      loadingApp: ' Ошибка при инициализации приложения',
+
     },
     toasts: {
+      Unauthorized: 'Авторизация неудачна',
       channelCreated: 'Канал создан',
       channelRenamed: 'Канал переименован',
       channelRemoved: 'Канал удалён',
@@ -58,7 +62,7 @@ export default {
       renameLabel: 'Имя канала',
     },
     chat: {
-      loading: 'Загрузка сообщений...',
+      loading: 'Загрузка ...',
       noChannelSelected: 'Канал не выбран',
       newMessage: 'Новое сообщение',
       noChannels: 'Нет доступных каналов',

@@ -1,22 +1,25 @@
 import { useEffect, useRef } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { useSelector, useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import leoProfanity from 'leo-profanity'
 
-import { renameChannelThunk } from '../slices/channelsThunks'
-import { selectChannels } from '../slices/channelsSlice'
+import {
+  useRenameChannelMutation,
+  useGetChannelsQuery,
+} from '../services/chatApi'
 import { getRenameChannelSchema } from '../schemas/channelSchemas'
+import handleApiError from '../utils/handleApiError.js'
 
 const RenameChannelModal = ({ show, channelId, onHide }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const channels = useSelector(selectChannels)
-  const channel = channels.find(c => c.id === channelId) || {}
-
   const inputRef = useRef(null)
+
+  const { data: channels = [] } = useGetChannelsQuery()
+  const [renameChannel, { isLoading }] = useRenameChannelMutation()
+
+  const channel = channels.find(c => c.id === channelId) || {}
 
   useEffect(() => {
     if (show && inputRef.current) {
@@ -40,27 +43,16 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const cleanedName = leoProfanity.clean(values.name.trim())
-        await dispatch(renameChannelThunk({
-          id: channelId,
-          name: cleanedName,
-        })).unwrap()
+        await renameChannel({ id: channelId, name: cleanedName }).unwrap()
+
         toast.success(t('toasts.channelRenamed', { name: cleanedName }), {
           position: 'top-right',
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
         })
         onHide()
       }
-      catch {
-        toast.error(t('modals.networkError'), {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        })
+      catch (error) {
+        handleApiError(error, t('modals.networkError'))
         setSubmitting(false)
       }
     },
@@ -69,7 +61,7 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t('toasts.channelRenamed')}</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Form noValidate onSubmit={formik.handleSubmit}>
         <Modal.Body>
@@ -81,9 +73,17 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              onKeyDown={async (e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  void formik.setTouched({ name: true }) // игнорируем предупреждение
+                  await formik.handleSubmit()
+                }
+              }}
               isInvalid={formik.touched.name && !!formik.errors.name}
               ref={inputRef}
               autoComplete="off"
+              disabled={isLoading}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
@@ -91,15 +91,19 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>
+          <Button
+            variant="secondary"
+            onClick={onHide}
+            disabled={isLoading}
+          >
             {t('modals.cancel')}
           </Button>
           <Button
             type="submit"
             variant="primary"
-            disabled={formik.isSubmitting || !formik.isValid}
+            disabled={isLoading || !formik.isValid || formik.isSubmitting}
           >
-            {formik.isSubmitting
+            {isLoading
               ? (
                   <span
                     className="spinner-border spinner-border-sm"

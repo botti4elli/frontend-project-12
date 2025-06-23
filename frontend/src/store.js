@@ -1,15 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query'
 import authReducer from './slices/authSlice'
-import channelsReducer from './slices/channelsSlice'
-import messagesReducer from './slices/messagesSlice'
-import initReducer from './slices/initSlice'
 import uiReducer from './slices/uiSlice'
-export default configureStore({
+import { chatApi } from './services/chatApi'
+
+export const store = configureStore({
   reducer: {
+    [chatApi.reducerPath]: chatApi.reducer,
     auth: authReducer,
-    channels: channelsReducer,
-    messages: messagesReducer,
-    init: initReducer,
     ui: uiReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(chatApi.middleware),
 })
+
+setupListeners(store.dispatch)
+
+export default store

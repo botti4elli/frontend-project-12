@@ -1,34 +1,96 @@
-import { createSlice } from '@reduxjs/toolkit'
-const storedToken = localStorage.getItem('token')
-const storedUsername = localStorage.getItem('username')
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
+import {
+  saveToken,
+  saveUsername,
+  clearAuthStorage,
+  getToken,
+  getUsername,
+} from '../utils/storage.js'
+
+export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithValue }) => {
+  const token = getToken()
+  const username = getUsername()
+
+  if (!token) {
+    return rejectWithValue('No token found')
+  }
+
+  try {
+    await axios.get('/api/v1/channels', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return { username, token }
+  }
+  catch {
+    return rejectWithValue('Invalid or expired token')
+  }
+})
+
+const tokenFromStorage = getToken()
+const usernameFromStorage = getUsername()
+
 const initialState = {
-  token: storedToken,
-  username: storedUsername,
-  isAuthenticated: !!storedToken,
+  username: usernameFromStorage || null,
+  token: tokenFromStorage || null,
+  status: tokenFromStorage ? 'succeeded' : 'idle',
+  error: null,
 }
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      const { token: newToken, username: newUsername } = action.payload
-      state.token = newToken
-      state.username = newUsername
-      state.isAuthenticated = true
-      localStorage.setItem('token', newToken)
-      localStorage.setItem('username', newUsername)
-    },
     logout: (state) => {
-      state.token = null
       state.username = null
-      state.isAuthenticated = false
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
+      state.token = null
+      state.status = 'idle'
+      state.error = null
+      clearAuthStorage()
+    },
+    setCredentials: (state, action) => {
+      const { username, token } = action.payload
+      state.username = username
+      state.token = token
+      state.status = 'succeeded'
+      state.error = null
+      saveToken(token)
+      saveUsername(username)
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(checkAuth.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        const { username, token } = action.payload
+        state.status = 'succeeded'
+        state.username = username
+        state.token = token
+        state.error = null
+        saveToken(token)
+        saveUsername(username)
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.payload || action.error.message || 'Authorization failed'
+        state.username = null
+        state.token = null
+        clearAuthStorage()
+      })
+  },
 })
-export const { setCredentials, logout } = authSlice.actions
-// Селекторы
-export const selectToken = state => state.auth.token
+
+export const { logout, setCredentials } = authSlice.actions
+
 export const selectUsername = state => state.auth.username
+export const selectToken = state => state.auth.token
+export const selectCurrentUser = state => state.auth
+export const selectIsAuthChecked = state => state.auth.status !== 'idle'
+
 export default authSlice.reducer

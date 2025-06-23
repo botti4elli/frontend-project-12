@@ -7,6 +7,4 @@ const rollbar = new Rollbar({
   environment: import.meta.env.MODE || 'production',
 })
 
-console.log('Rollbar initialized with token:', import.meta.env.VITE_ROLLBAR_CLIENT_TOKEN)
-
 export default rollbar

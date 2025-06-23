@@ -1,51 +1,63 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { ErrorBoundary } from '@rollbar/react' // ✅ только ErrorBoundary
-import rollbar from './rollbar/rollbarConfig.js'
-import store from './store.js'
-import App from './components/App'
+import { BrowserRouter } from 'react-router-dom'
+import { I18nextProvider } from 'react-i18next'
 import i18next from 'i18next'
-import { I18nextProvider, initReactI18next } from 'react-i18next'
-import resources from './locales/index.js'
+import { initReactI18next } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
+import rollbar from './rollbar/rollbarConfig'
+import ErrorBoundary from './rollbar/ErrorBoundary.jsx'
+
+import store from './store'
+import App from './components/App'
+import resources from './locales/index'
+import { checkAuth } from './slices/authSlice'
+
+const initI18n = async () => {
+  await i18next.use(initReactI18next).init({
+    resources,
+    lng: 'ru',
+    fallbackLng: 'ru',
+    interpolation: { escapeValue: false },
+  })
+}
+
+leoProfanity.add(leoProfanity.getDictionary('en'))
+leoProfanity.add(leoProfanity.getDictionary('ru'))
 
 const init = async () => {
-  const i18n = i18next.createInstance()
-
   try {
-    await i18n
-      .use(initReactI18next)
-      .init({
-        resources,
-        lng: 'ru',
-        fallbackLng: 'ru',
-        debug: true,
-        interpolation: {
-          escapeValue: false,
-        },
-      })
-  }
-  catch (error) {
-    console.error('i18n initialization failed:', error)
-  }
+    await initI18n()
+    await store.dispatch(checkAuth())
 
-  const rootElement = document.getElementById('root')
-  if (!rootElement) {
-    throw new Error('Root element not found!')
-  }
+    const rootElement = document.getElementById('root')
+    if (!rootElement) {
+      const err = new Error('Root element not found')
+      rollbar.error(err)
+      console.error(err)
+      return
+    }
+    const root = ReactDOM.createRoot(rootElement)
 
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <ErrorBoundary rollbar={rollbar}>
-          <I18nextProvider i18n={i18n}>
-            <App />
-          </I18nextProvider>
+    root.render(
+      <React.StrictMode>
+        <ErrorBoundary>
+          <Provider store={store}>
+            <BrowserRouter>
+              <I18nextProvider i18n={i18next}>
+                <App />
+              </I18nextProvider>
+            </BrowserRouter>
+          </Provider>
         </ErrorBoundary>
-      </Provider>
-    </React.StrictMode>,
-  )
+      </React.StrictMode>,
+    )
+  }
+  catch (err) {
+    rollbar.error('App initialization failed', err)
+    console.error('App initialization failed:', err)
+  }
 }
 
 export default init

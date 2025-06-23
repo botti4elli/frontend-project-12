@@ -4,28 +4,28 @@ import {
 } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-
+import { useDispatch } from 'react-redux'
 import leoProfanity from 'leo-profanity'
 
-import { addChannelThunk } from '../slices/channelsThunks'
+import {
+  useAddChannelMutation,
+  useGetChannelsQuery,
+} from '../services/chatApi'
 import { getAddChannelSchema } from '../schemas/channelSchemas'
-
-leoProfanity.loadDictionary('ru')
-leoProfanity.add(leoProfanity.getDictionary('en'))
+import handleApiError from '../utils/handleApiError.js'
+import { setCurrentChannelId } from '../slices/uiSlice'
 
 const AddChannelModal = ({ show, onHide }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const inputRef = useRef(null)
-
-  const channels = useSelector(state => state.channels.channels)
-  const { status } = useSelector(state => state.channels)
-
-  const channelNames = channels.map(channel => channel.name)
   const [submitAttempted, setSubmitAttempted] = useState(false)
 
+  const { data: channels = [] } = useGetChannelsQuery()
+  const [addChannel, { isLoading }] = useAddChannelMutation()
+
+  const channelNames = channels.map(channel => channel.name)
   const validationSchema = getAddChannelSchema(t, channelNames)
 
   const formik = useFormik({
@@ -35,11 +35,11 @@ const AddChannelModal = ({ show, onHide }) => {
     validateOnChange: true,
     onSubmit: async ({ name }, { resetForm, setSubmitting }) => {
       setSubmitAttempted(true)
-
       const cleanedName = leoProfanity.clean(name).trim()
 
       try {
-        await dispatch(addChannelThunk({ name: cleanedName })).unwrap()
+        const newChannel = await addChannel({ name: cleanedName }).unwrap()
+        dispatch(setCurrentChannelId(newChannel.id))
 
         resetForm()
         setSubmitAttempted(false)
@@ -47,21 +47,12 @@ const AddChannelModal = ({ show, onHide }) => {
         toast.success(t('toasts.channelCreated', { name: cleanedName }), {
           position: 'top-right',
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
         })
 
         onHide()
       }
-      catch {
-        toast.error(t('modals.networkError'), {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        })
+      catch (error) {
+        handleApiError(error, t, 'modals.networkError')
         setSubmitting(false)
       }
     },
@@ -73,7 +64,7 @@ const AddChannelModal = ({ show, onHide }) => {
       formik.resetForm()
       setSubmitAttempted(false)
     }
-  }, [show])
+  }, [show, formik])
 
   const showError = (formik.touched.name || submitAttempted) && !!formik.errors.name
 
@@ -100,7 +91,7 @@ const AddChannelModal = ({ show, onHide }) => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
               isInvalid={showError}
-              disabled={status === 'loading'}
+              disabled={isLoading}
               autoComplete="off"
               autoFocus
             />
@@ -116,16 +107,16 @@ const AddChannelModal = ({ show, onHide }) => {
               variant="secondary"
               onClick={onHide}
               className="me-2"
-              disabled={status === 'loading'}
+              disabled={isLoading}
             >
               {t('modals.cancel')}
             </Button>
             <Button
               variant="primary"
               type="submit"
-              disabled={status === 'loading' || formik.isSubmitting}
+              disabled={isLoading || formik.isSubmitting}
             >
-              {status === 'loading'
+              {isLoading
                 ? (
                     <Spinner
                       as="span"

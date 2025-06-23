@@ -3,7 +3,7 @@ import {
 } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { setCurrentChannelId } from '../slices/channelsSlice'
+import { setCurrentChannelId } from '../slices/uiSlice'
 import { BsPlusSquare } from 'react-icons/bs'
 
 const ChannelsList = ({
@@ -15,7 +15,7 @@ const ChannelsList = ({
   const handleSelectChannel = id => dispatch(setCurrentChannelId(id))
 
   return (
-    <div>
+    <>
       {/* Шапка с названием и кнопкой добавления */}
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channels')}</b>
@@ -91,7 +91,7 @@ const ChannelsList = ({
           )
         })}
       </Nav>
-    </div>
+    </>
   )
 }
 

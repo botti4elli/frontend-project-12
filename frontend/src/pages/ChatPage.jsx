@@ -1,15 +1,10 @@
-import { useEffect, useState, useRef } from 'react'
-import {
-  Container, Row, Col,
-} from 'react-bootstrap'
+import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Container, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
 
-import useAuth from '../hooks/useAuth'
-import { initApp } from '../slices/initSlice'
-import socket from '../services/socket'
-import { openModal } from '../slices/uiSlice'
+import { openModal, setCurrentChannelId, selectCurrentChannelId } from '../slices/uiSlice'
+import { useGetChannelsQuery, useGetMessagesQuery } from '../services/chatApi'
 
 import ChannelsList from '../components/ChannelsList'
 import ChatHeader from '../components/ChatHeader'
@@ -17,51 +12,26 @@ import MessagesList from '../components/MessagesList'
 import MessageInputForm from '../components/MessageInputForm'
 import ModalsManager from '../components/ModalsManager'
 
-import useSocketEvents from '../hooks/useSocketEvents'
-
 const ChatPage = () => {
-  const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { username, token } = useAuth()
+  const currentChannelId = useSelector(selectCurrentChannelId)
+  const inputRef = useRef(null)
 
-  const channels = useSelector(state => state.channels.channels)
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
-  const messages = useSelector(state => state.messages)
-  const isAppLoading = useSelector(state => state.init.loading)
-  const isAppError = useSelector(state => state.init.error)
+  const { data: channels = [], isLoading: channelsLoading } = useGetChannelsQuery()
+  const { data: messages = [], isLoading: messagesLoading } = useGetMessagesQuery()
+
+  useEffect(() => {
+    if (channels.length > 0 && !currentChannelId) {
+      dispatch(setCurrentChannelId(channels[0].id))
+    }
+  }, [channels, currentChannelId, dispatch])
 
   const currentChannel = channels.find(c => c.id === currentChannelId)
   const currentMessages = messages.filter(m => m.channelId === currentChannelId)
-
-  const [isSocketConnected, setIsSocketConnected] = useState(socket.connected)
-  const hasShownDisconnectToast = useRef(false)
-
-  useEffect(() => {
-    dispatch(initApp())
-  }, [dispatch])
-
-  useSocketEvents(
-    () => setIsSocketConnected(true),
-    () => setIsSocketConnected(false),
-  )
-
-  useEffect(() => {
-    if (isAppError) {
-      toast.error(t('chat.loadingDataFailed'))
-    }
-  }, [isAppError, t])
-
-  useEffect(() => {
-    if (!isSocketConnected && !hasShownDisconnectToast.current) {
-      toast.warning(t('chat.disconnected'))
-      hasShownDisconnectToast.current = true
-    }
-    if (isSocketConnected) {
-      hasShownDisconnectToast.current = false
-    }
-  }, [isSocketConnected, t])
-
-  if (isAppLoading) return null
+  const { t } = useTranslation()
+  if (channelsLoading || messagesLoading) {
+    return <div className="d-flex justify-content-center p-5">{t('chat.loading')}</div>
+  }
 
   return (
     <Container fluid className="d-flex justify-content-center bg-light">
@@ -72,20 +42,28 @@ const ChatPage = () => {
               channels={channels}
               currentChannelId={currentChannelId}
               onAddChannel={() => dispatch(openModal({ type: 'addChannel' }))}
-              onRename={channel => dispatch(openModal({ type: 'renameChannel', channelId: channel.id }))}
-              onRemove={channel => dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
+              onRename={channel => dispatch(openModal({
+                type: 'renameChannel',
+                channelId: channel.id,
+                currentName: channel.name,
+              }))}
+              onRemove={channel => dispatch(openModal({
+                type: 'removeChannel',
+                channelId: channel.id,
+              }))}
             />
           </Col>
           <Col md={10} className="chat-column p-0">
-            <ChatHeader currentChannel={currentChannel} messagesCount={currentMessages.length} />
+            <ChatHeader
+              currentChannel={currentChannel}
+              messagesCount={currentMessages.length}
+            />
             <div className="chat-body d-flex flex-column flex-grow-1 overflow-hidden">
               <MessagesList messages={currentMessages} />
               <div className="input-form-container p-3 border-top">
                 <MessageInputForm
-                  currentChannelId={currentChannelId}
-                  username={username}
-                  token={token}
-                  isDisabled={!isSocketConnected}
+                  isDisabled={!currentChannelId}
+                  inputRef={inputRef}
                 />
               </div>
             </div>

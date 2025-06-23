@@ -1,60 +1,50 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import {
   Button, Card, Form, Nav, Image, Container, Row, Col,
 } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
-import { Formik } from 'formik'
-import axios from 'axios'
+import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { setCredentials } from '../slices/authSlice.js'
+import { Link, useNavigate } from 'react-router-dom'
+import getLoginSchema from '../schemas/loginSchema'
+import useAuth from '../hooks/useAuth'
+import { APP_ROUTES } from '../constants/routes'
 
 const Login = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [authError, setAuthError] = useState(false)
+  const { login, isAuthenticated, handleLoginSubmit } = useAuth()
   const usernameInputRef = useRef(null)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token')
-    if (storedToken) {
-      navigate('/')
+    if (isAuthenticated) {
+      navigate(APP_ROUTES.HOME)
     }
-  }, [navigate])
+  }, [isAuthenticated, navigate])
 
   useEffect(() => {
-    if (usernameInputRef.current) {
-      usernameInputRef.current.focus()
-    }
+    usernameInputRef.current?.focus()
   }, [])
 
-  const initialValues = {
-    username: '',
-    password: '',
-  }
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: getLoginSchema(t),
+    onSubmit: async (values, formikHelpers) => {
+      const { setTouched, validateForm } = formikHelpers
 
-  const handleOnSubmit = async (values, { setSubmitting }) => {
-    const { username, password } = values
-    setAuthError(false)
+      await setTouched({ username: true, password: true })
 
-    if (!username.trim() || !password.trim()) {
-      setSubmitting(false)
-      return
-    }
+      const errors = await validateForm()
 
-    try {
-      const response = await axios.post('/api/v1/login', values)
-      const { token } = response.data
-      localStorage.setItem('token', token)
-      dispatch(setCredentials({ token, username }))
-      navigate('/')
-    }
-    catch {
-      setAuthError(true)
-      setSubmitting(false)
-    }
-  }
+      if (Object.keys(errors).length > 0) {
+        return
+      }
+
+      await handleLoginSubmit(login, t)(values, formikHelpers)
+    },
+  })
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -65,7 +55,7 @@ const Login = () => {
               <div className="d-flex justify-content-center align-items-center w-50">
                 <Image
                   src="/avatar.jpg"
-                  alt="Логотип"
+                  alt={t('logoAlt')}
                   width={200}
                   height={200}
                   roundedCircle
@@ -74,64 +64,50 @@ const Login = () => {
               <Card className="border-0 w-50">
                 <Card.Body className="p-0 ps-4">
                   <Card.Title className="mt-3 mb-4 text-center fs-1">{t('login')}</Card.Title>
-                  <Formik initialValues={initialValues} onSubmit={handleOnSubmit}>
-                    {({
-                      handleSubmit,
-                      handleChange,
-                      values,
-                      isSubmitting,
-                    }) => {
-                      const bothFieldsFilled = values.username.trim() && values.password.trim()
+                  <Form noValidate onSubmit={formik.handleSubmit}>
+                    <Form.Group className="mb-3" controlId="username">
+                      <Form.Control
+                        type="text"
+                        name="username"
+                        placeholder={t('username')}
+                        ref={usernameInputRef}
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        isInvalid={formik.touched.username && !!formik.errors.username}
+                        autoComplete="username"
+                        autoFocus
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {formik.errors.username}
+                      </Form.Control.Feedback>
+                    </Form.Group>
 
-                      return (
-                        <Form noValidate onSubmit={handleSubmit}>
-                          <div className="mb-3 position-relative">
-                            <label htmlFor="username" className="form-label visually-hidden">{t('username')}</label>
-                            <div className="input-group has-validation">
-                              <Form.Control
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder={t('username')}
-                                ref={usernameInputRef}
-                                value={values.username}
-                                onChange={handleChange}
-                                autoComplete="username"
-                              />
-                            </div>
-                          </div>
+                    <Form.Group className="mb-3" controlId="password">
+                      <Form.Control
+                        type="password"
+                        name="password"
+                        placeholder={t('password')}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        isInvalid={formik.touched.password && !!formik.errors.password}
+                        autoComplete="current-password"
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {formik.errors.password}
+                      </Form.Control.Feedback>
+                    </Form.Group>
 
-                          <div className="mb-3 position-relative">
-                            <label htmlFor="password" className="form-label visually-hidden">{t('password')}</label>
-                            <div className="input-group has-validation">
-                              <Form.Control
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder={t('password')}
-                                value={values.password}
-                                onChange={handleChange}
-                                autoComplete="current-password"
-                                isInvalid={authError && bothFieldsFilled}
-                              />
-                              <div className="invalid-tooltip">
-                                {t('errors.loginFailed')}
-                              </div>
-                            </div>
-                          </div>
-
-                          <Button
-                            variant="outline-primary"
-                            type="submit"
-                            className="w-100"
-                            disabled={isSubmitting}
-                          >
-                            {t('login')}
-                          </Button>
-                        </Form>
-                      )
-                    }}
-                  </Formik>
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="w-100 mb-3"
+                      disabled={formik.isSubmitting}
+                    >
+                      {t('login')}
+                    </Button>
+                  </Form>
                 </Card.Body>
               </Card>
             </div>
@@ -141,7 +117,7 @@ const Login = () => {
               {' '}
               <Nav.Link
                 as={Link}
-                to="/signup"
+                to={APP_ROUTES.SIGNUP}
                 className="d-inline p-0 text-primary text-decoration-underline"
               >
                 {t('register')}
