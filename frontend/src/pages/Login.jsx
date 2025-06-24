@@ -89,6 +89,7 @@ const Login = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="password">
+                      <label htmlFor="password" className="form-label visually-hidden">{t('password')}</label>
                       <Form.Control
                         type="password"
                         name="password"
