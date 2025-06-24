@@ -131,7 +131,7 @@ const Login = () => {
               {t('noAccount')}
               {' '}
               <a
-                href={APP_ROUTES.SIGNUP}
+                href="/signup"
                 className="d-inline p-0 text-primary text-decoration-underline"
               >
                 {t('register')}
