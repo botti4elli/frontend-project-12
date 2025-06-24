@@ -1,13 +1,11 @@
 import { useRef, useEffect } from 'react'
 import {
-  // Button, Card, Form, Nav, Image, Container, Row, Col,
   Button, Card, Form, Image, Container, Row, Col,
 
 } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
-// import { useNavigate } from 'react-router-dom'
 
 import getLoginSchema from '../schemas/loginSchema'
 import useAuth from '../hooks/useAuth'
@@ -81,7 +79,6 @@ const Login = () => {
                         onBlur={formik.handleBlur}
                         isInvalid={formik.touched.username && !!formik.errors.username}
                         autoComplete="username"
-                        // autoFocus
                       />
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.username}
@@ -118,17 +115,6 @@ const Login = () => {
               </Card>
             </div>
 
-            {/* <div className="bg-light text-center py-4 w-100 border-top"> */}
-            {/*  {t('noAccount')} */}
-            {/*  {' '} */}
-            {/*  <Nav.Link */}
-            {/*    as={Link} */}
-            {/*    to="/signup" */}
-            {/*    className="d-inline p-0 text-primary text-decoration-underline" */}
-            {/*  > */}
-            {/*    {t('register')} */}
-            {/*  </Nav.Link> */}
-            {/* </div> */}
             <div className="bg-light text-center py-4 w-100 border-top">
               {t('noAccount')}
               {' '}
@@ -136,7 +122,6 @@ const Login = () => {
                 to={APP_ROUTES.SIGNUP}
                 className="d-inline p-0 text-primary text-decoration-underline nav-link"
                 onMouseDown={(e) => {
-                  // предотвращает onBlur и валидацию до навигации
                   e.preventDefault()
                   navigate(APP_ROUTES.SIGNUP)
                 }}

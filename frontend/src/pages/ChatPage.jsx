@@ -18,7 +18,6 @@ const ChatPage = () => {
   const inputRef = useRef(null)
 
   const { data: channels = [], isLoading: channelsLoading } = useGetChannelsQuery()
-  // const { data: messages = [], isLoading: messagesLoading } = useGetMessagesQuery()
   const {
     data: messages = [],
     isLoading: messagesLoading,
