@@ -132,7 +132,7 @@ const Login = () => {
               {' '}
               <a
                 href={APP_ROUTES.SIGNUP}
-                className="d-inline p-0 text-primary text-decoration-underline nav-link"
+                className="d-inline p-0 text-primary text-decoration-underline"
               >
                 {t('register')}
               </a>
