@@ -70,6 +70,7 @@ const Login = () => {
                   <Card.Title className="mt-3 mb-4 text-center fs-1">{t('login')}</Card.Title>
                   <Form noValidate onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-3" controlId="username">
+                      <label htmlFor="username" className="form-label visually-hidden">{t('username')}</label>
                       <Form.Control
                         type="text"
                         name="username"
