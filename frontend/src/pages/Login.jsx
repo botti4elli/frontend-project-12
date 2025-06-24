@@ -6,8 +6,8 @@ import {
 } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useTranslation } from 'react-i18next'
-// import { Link, useNavigate } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 import getLoginSchema from '../schemas/loginSchema'
 import useAuth from '../hooks/useAuth'
@@ -80,7 +80,7 @@ const Login = () => {
                         onBlur={formik.handleBlur}
                         isInvalid={formik.touched.username && !!formik.errors.username}
                         autoComplete="username"
-                        autoFocus
+                        // autoFocus
                       />
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.username}
@@ -130,13 +130,19 @@ const Login = () => {
             <div className="bg-light text-center py-4 w-100 border-top">
               {t('noAccount')}
               {' '}
-              <a
-                href="/signup"
+              <Link
+                to={APP_ROUTES.SIGNUP}
                 className="d-inline p-0 text-primary text-decoration-underline nav-link"
+                onMouseDown={(e) => {
+                  // предотвращает onBlur и валидацию до навигации
+                  e.preventDefault()
+                  navigate(APP_ROUTES.SIGNUP)
+                }}
               >
                 {t('register')}
-              </a>
+              </Link>
             </div>
+
           </div>
         </Col>
       </Row>
