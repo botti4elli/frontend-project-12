@@ -30,14 +30,12 @@ export const checkAuth = createAsyncThunk('auth/check', async (_, { rejectWithVa
   }
 })
 
-const tokenFromStorage = getToken()
-const usernameFromStorage = getUsername()
-
 const initialState = {
-  username: usernameFromStorage || null,
-  token: tokenFromStorage || null,
-  status: tokenFromStorage ? 'succeeded' : 'idle',
+  username: getUsername() || null,
+  token: getToken() || null,
+  status: 'idle',
   error: null,
+  authChecked: false,
 }
 
 const authSlice = createSlice({
@@ -49,6 +47,7 @@ const authSlice = createSlice({
       state.token = null
       state.status = 'idle'
       state.error = null
+      state.authChecked = true
       clearAuthStorage()
     },
     setCredentials: (state, action) => {
@@ -70,6 +69,7 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         const { username, token } = action.payload
         state.status = 'succeeded'
+        state.authChecked = true
         state.username = username
         state.token = token
         state.error = null
@@ -78,6 +78,7 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.status = 'failed'
+        state.authChecked = true
         state.error = action.payload || action.error.message || 'Authorization failed'
         state.username = null
         state.token = null
@@ -91,6 +92,7 @@ export const { logout, setCredentials } = authSlice.actions
 export const selectUsername = state => state.auth.username
 export const selectToken = state => state.auth.token
 export const selectCurrentUser = state => state.auth
-export const selectIsAuthChecked = state => state.auth.status !== 'idle'
+
+export const selectIsAuthChecked = state => state.auth.authChecked
 
 export default authSlice.reducer

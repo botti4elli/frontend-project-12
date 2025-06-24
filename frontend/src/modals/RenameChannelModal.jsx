@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
@@ -19,7 +19,10 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
   const { data: channels = [] } = useGetChannelsQuery()
   const [renameChannel, { isLoading }] = useRenameChannelMutation()
 
-  const channel = channels.find(c => c.id === channelId) || {}
+  const channel = useMemo(
+    () => channels.find(c => c.id === channelId) || {},
+    [channels, channelId],
+  )
 
   useEffect(() => {
     if (show && inputRef.current) {
@@ -28,11 +31,17 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
     }
   }, [show])
 
-  const channelNames = channels
-    .filter(c => c.id !== channelId)
-    .map(c => c.name.toLowerCase())
+  const channelNames = useMemo(
+    () => channels
+      .filter(c => c.id !== channelId)
+      .map(c => c.name.toLowerCase()),
+    [channels, channelId],
+  )
 
-  const validationSchema = getRenameChannelSchema(t, channelNames)
+  const validationSchema = useMemo(
+    () => getRenameChannelSchema(t, channelNames),
+    [t, channelNames],
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -76,7 +85,7 @@ const RenameChannelModal = ({ show, channelId, onHide }) => {
               onKeyDown={async (e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault()
-                  void formik.setTouched({ name: true }) // игнорируем предупреждение
+                  void formik.setTouched({ name: true })
                   await formik.handleSubmit()
                 }
               }}

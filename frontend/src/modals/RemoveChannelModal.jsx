@@ -1,7 +1,9 @@
+import { useMemo, useCallback } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
+
 import { useRemoveChannelMutation, useGetChannelsQuery } from '../services/chatApi'
 import { setCurrentChannelId } from '../slices/uiSlice'
 import handleApiError from '../utils/handleApiError.js'
@@ -13,11 +15,15 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
   const [removeChannel, { isLoading }] = useRemoveChannelMutation()
   const { data: channels = [] } = useGetChannelsQuery()
 
-  const handleRemove = async () => {
+  const defaultChannelId = useMemo(
+    () => channels[0]?.id,
+    [channels],
+  )
+
+  const handleRemove = useCallback(async () => {
     try {
       await removeChannel(channelId).unwrap()
 
-      const defaultChannelId = channels[0]?.id
       if (defaultChannelId) {
         dispatch(setCurrentChannelId(defaultChannelId))
       }
@@ -35,7 +41,7 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
     catch (error) {
       handleApiError(error, t('modals.networkError'))
     }
-  }
+  }, [channelId, defaultChannelId, dispatch, removeChannel, t, onHide])
 
   return (
     <Modal show={show} onHide={onHide} centered>
@@ -54,9 +60,7 @@ const RemoveChannelModal = ({ show, channelId, onHide }) => {
             ? (
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
               )
-            : (
-                t('modals.remove')
-              )}
+            : t('modals.remove')}
         </Button>
       </Modal.Footer>
     </Modal>

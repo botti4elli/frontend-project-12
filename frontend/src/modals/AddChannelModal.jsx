@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useMemo, useState } from 'react'
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap'
@@ -25,12 +25,13 @@ const AddChannelModal = ({ show, onHide }) => {
   const { data: channels = [] } = useGetChannelsQuery()
   const [addChannel, { isLoading }] = useAddChannelMutation()
 
-  const channelNames = channels.map(channel => channel.name)
-  const validationSchema = getAddChannelSchema(t, channelNames)
+  const channelNames = useMemo(() => channels.map(channel => channel.name), [channels])
+  const validationSchema = useMemo(() => getAddChannelSchema(t, channelNames), [t, channelNames])
 
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema,
+    enableReinitialize: true,
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: async ({ name }, { resetForm, setSubmitting }) => {
@@ -61,10 +62,9 @@ const AddChannelModal = ({ show, onHide }) => {
   useEffect(() => {
     if (show) {
       inputRef.current?.focus()
-      formik.resetForm()
       setSubmitAttempted(false)
     }
-  }, [show, formik])
+  }, [show])
 
   const showError = (formik.touched.name || submitAttempted) && !!formik.errors.name
 
