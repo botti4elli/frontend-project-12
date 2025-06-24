@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import routes from '../routes.jsx'
 import Header from './Header.jsx'
 import { selectIsAuthChecked } from '../slices/authSlice.js'
+import { Suspense } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -21,11 +22,14 @@ const App = () => {
   return (
     <>
       <Header />
-      <Routes>
-        {routes.map(({ path, element }) => (
-          <Route key={path} path={path} element={element} />
-        ))}
-      </Routes>
+      <Suspense fallback={<div className="d-flex justify-content-center p-5"><div className="spinner-border text-primary" role="status" /></div>}>
+
+        <Routes>
+          {routes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Routes>
+      </Suspense>
 
       <ToastContainer
         position="top-right"

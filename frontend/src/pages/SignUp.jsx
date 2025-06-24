@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import getSignupSchema from '../schemas/authSchemas'
 import useAuth from '../hooks/useAuth'
 import handleApiError from '../utils/handleApiError'
+console.log('Signup rendered')
 
 const Signup = () => {
   const { t } = useTranslation()
@@ -143,7 +144,6 @@ const Signup = () => {
                             {signupError}
                           </div>
                         )}
-
                         <Button
                           type="submit"
                           variant="primary"
