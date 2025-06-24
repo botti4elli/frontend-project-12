@@ -71,8 +71,6 @@ import jsPlugin from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import reactRefreshPlugin from 'eslint-plugin-react-refresh'
-// import reactRefreshConfig from 'eslint-plugin-react-refresh/config'
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
@@ -88,7 +86,7 @@ export default [
     plugins: {
       'react': reactPlugin,
       'react-hooks': reactHooksPlugin,
-      'react-refresh': reactRefreshPlugin,
+      // Убираем react-refresh
     },
     languageOptions: {
       globals: {
@@ -109,7 +107,7 @@ export default [
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
 
-      'react-refresh/only-export-components': 'warn',
+      // 'react-refresh/only-export-components': 'warn', // убираем пока
       'react/prop-types': 'off',
       'no-console': 'off',
       'react/react-in-jsx-scope': 'off',

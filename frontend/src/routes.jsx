@@ -34,7 +34,6 @@ const Login = lazy(() => import('./pages/Login.jsx'))
 const Signup = lazy(() => import('./pages/SignUp.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
-/* eslint-disable react-refresh/only-export-components */
 const PrivateRoute = ({ children }) => {
   const username = useSelector(selectUsername)
   const isAuthChecked = useSelector(selectIsAuthChecked)
