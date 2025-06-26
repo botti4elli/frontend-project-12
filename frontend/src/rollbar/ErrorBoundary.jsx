@@ -1,5 +1,6 @@
 import React from 'react'
 import rollbar from './rollbarConfig.js'
+import { withTranslation } from 'react-i18next'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -16,12 +17,14 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
+    const { t } = this.props
+
     if (this.state.hasError) {
-      return <h1>Что-то пошло не так.</h1>
+      return <h1>{t('errorBoundary.fallbackMessage')}</h1>
     }
 
     return this.props.children
   }
 }
 
-export default ErrorBoundary
+export default withTranslation()(ErrorBoundary)

@@ -61,6 +61,11 @@ export default {
       confirm: 'Уверены?',
       renameLabel: 'Имя канала',
     },
+
+    errorBoundary: {
+      fallbackMessage: 'Что-то пошло не так...',
+    },
+
     chat: {
       loading: 'Загрузка ...',
       noChannelSelected: 'Канал не выбран',
