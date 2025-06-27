@@ -21,9 +21,9 @@ export default {
     remove: 'Удалить',
     management: 'Управление каналом',
     general: '#general',
-    notFound: 'Страница не найдена',
-    youCanGo: 'Но вы можете перейти',
-    toHomePage: 'на главную страницу',
+    // notFound: 'Страница не найдена',
+    // youCanGo: 'Но вы можете перейти',
+    // toHomePage: 'на главную страницу',
     errors: {
       required: 'Обязательное поле',
       usernameLength: 'От 3 до 20 символов',
@@ -37,8 +37,15 @@ export default {
       loadingDataFailed: 'Ошибка загрузки данных',
       sendMessageFailed: 'Не удалось отправить сообщение',
       loadingApp: ' Ошибка при инициализации приложения',
+      unauthorized: 'Истекло время действия сессии. Пожалуйста, войдите заново.',
 
     },
+    notFound: {
+      title: 'Страница не найдена',
+      description: 'Но Вы можете перейти',
+      toHomePage: 'на главную страницу',
+    },
+
     toasts: {
       Unauthorized: 'Авторизация неудачна',
       channelCreated: 'Канал создан',
@@ -76,7 +83,7 @@ export default {
       messageCount_many: '{{count}} сообщений',
       messageCount_other: '{{count}} сообщения',
       disconnected: 'Соединение потеряно',
-      loadingDataFailed: 'Ошибка загрузки данных',
+      loadingError: 'Ошибка загрузки данных',
     },
     channel: {
       remove: 'Удалить',

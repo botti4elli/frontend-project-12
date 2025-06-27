@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import getLoginSchema from '../schemas/loginSchema'
 import useAuth from '../hooks/useAuth'
 import { APP_ROUTES } from '../constants/routes'
+import avatar from '../assets/avatar.jpg'
 
 const Login = () => {
   const { t } = useTranslation()
@@ -56,7 +57,7 @@ const Login = () => {
             <div className="d-flex flex-row p-5">
               <div className="d-flex justify-content-center align-items-center w-50">
                 <Image
-                  src="/avatar.jpg"
+                  src={avatar}
                   alt={t('logoAlt')}
                   width={200}
                   height={200}

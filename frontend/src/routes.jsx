@@ -6,7 +6,7 @@ import { selectUsername, selectIsAuthChecked } from './slices/authSlice.js'
 const ChatPage = lazy(() => import('./pages/ChatPage.jsx'))
 const Login = lazy(() => import('./pages/Login.jsx'))
 const Signup = lazy(() => import('./pages/SignUp.jsx'))
-const NotFound = lazy(() => import('./pages/NotFound.jsx'))
+const NotFound = lazy(() => import('./pages/notFound.jsx'))
 
 const PrivateRoute = ({ children }) => {
   const username = useSelector(selectUsername)

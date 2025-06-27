@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import getSignupSchema from '../schemas/authSchemas'
 import useAuth from '../hooks/useAuth'
 import handleApiError from '../utils/handleApiError'
+import avatar_1 from '../assets/avatar_1.jpg'
 
 const Signup = () => {
   const { t } = useTranslation()
@@ -24,7 +25,7 @@ const Signup = () => {
             <div className="d-flex p-5">
               <div className="w-50 d-flex justify-content-center align-items-center">
                 <Image
-                  src="/avatar_1.jpg"
+                  src={avatar_1}
                   alt={t('logoAlt')}
                   width={200}
                   height={200}

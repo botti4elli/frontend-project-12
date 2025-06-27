@@ -1,18 +1,37 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { logout } from '../slices/authSlice'
+import { getToken } from '../utils/storage'
+import i18next from 'i18next'
+import { APP_ROUTES } from '../constants/routes.js'
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: '/api/v1',
+  prepareHeaders: (headers) => {
+    const token = getToken()
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+    return headers
+  },
+})
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions)
+
+  const isLoginCall
+      = typeof args === 'object' && (args.url === '/login' || args?.body?.username)
+
+  if (result.error?.status === 401 && !isLoginCall) {
+    api.dispatch(logout())
+    alert(i18next.t('errors.unauthorized'))
+    window.location.assign(APP_ROUTES.LOGIN)
+  }
+
+  return result
+}
 export const chatApi = createApi({
   reducerPath: 'chatApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
-    credentials: 'include',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
-      }
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Channels', 'Messages'],
   endpoints: builder => ({
     getChannels: builder.query({
