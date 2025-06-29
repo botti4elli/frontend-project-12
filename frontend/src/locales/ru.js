@@ -21,9 +21,6 @@ export default {
     remove: 'Удалить',
     management: 'Управление каналом',
     general: '#general',
-    // notFound: 'Страница не найдена',
-    // youCanGo: 'Но вы можете перейти',
-    // toHomePage: 'на главную страницу',
     errors: {
       required: 'Обязательное поле',
       usernameLength: 'От 3 до 20 символов',
@@ -71,6 +68,11 @@ export default {
 
     errorBoundary: {
       fallbackMessage: 'Что-то пошло не так...',
+    },
+
+    language: {
+      english: 'Английский',
+      russian: 'Русский',
     },
 
     chat: {

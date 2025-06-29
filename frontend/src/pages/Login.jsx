@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
+
 import {
   Button, Card, Form, Image, Container, Row, Col,
 
@@ -13,7 +14,9 @@ import { APP_ROUTES } from '../constants/routes'
 import avatar from '../assets/avatar.jpg'
 
 const Login = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const prevLang = useRef(i18n.language)
+
   const navigate = useNavigate()
   const { login, isAuthenticated, handleLoginSubmit } = useAuth()
   const usernameInputRef = useRef(null)
@@ -48,6 +51,16 @@ const Login = () => {
       await handleLoginSubmit(login, t)(values, formikHelpers)
     },
   })
+  const resetFormOnLangChange = useCallback(() => {
+    formik.resetForm()
+  }, [formik])
+
+  useEffect(() => {
+    if (prevLang.current !== i18n.language) {
+      resetFormOnLangChange()
+      prevLang.current = i18n.language
+    }
+  }, [i18n.language, resetFormOnLangChange])
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
@@ -67,7 +80,7 @@ const Login = () => {
               <Card className="border-0 w-50">
                 <Card.Body className="p-0 ps-4">
                   <Card.Title className="mt-3 mb-4 text-center fs-1">{t('login')}</Card.Title>
-                  <Form noValidate onSubmit={formik.handleSubmit}>
+                  <Form noValidate onSubmit={formik.handleSubmit} key={i18n.language}>
                     <Form.Group className="mb-3" controlId="username">
                       <label htmlFor="username" className="form-label visually-hidden">{t('username')}</label>
                       <Form.Control

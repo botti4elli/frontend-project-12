@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { openModal, setCurrentChannelId, selectCurrentChannelId } from '../slices/uiSlice'
@@ -11,6 +11,7 @@ import ChatHeader from '../components/ChatHeader'
 import MessagesList from '../components/MessagesList'
 import MessageInputForm from '../components/MessageInputForm'
 import ModalsManager from '../components/ModalsManager'
+import { BsPlusSquare } from 'react-icons/bs'
 
 const ChatPage = () => {
   const dispatch = useDispatch()
@@ -50,36 +51,58 @@ const ChatPage = () => {
   }
 
   return (
-    <Container fluid className="d-flex justify-content-center bg-light">
-      <div className="chat-wrapper shadow bg-white rounded p-0">
+    <Container fluid className="bg-light d-flex justify-content-center align-items-start py-4">
+      <div className="shadow rounded bg-white w-100" style={{ maxWidth: '1300px', height: '85vh' }}>
         <Row className="h-100 m-0">
-          <Col md={2} className="border-end px-3 d-flex flex-column channels-sidebar">
-            <ChannelsList
-              channels={channels}
-              currentChannelId={currentChannelId}
-              onAddChannel={() => dispatch(openModal({ type: 'addChannel' }))}
-              onRename={channel =>
-                dispatch(openModal({ type: 'renameChannel', channelId: channel.id, currentName: channel.name }))}
-              onRemove={channel =>
-                dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
-            />
-          </Col>
-          <Col md={10} className="chat-column p-0">
-            <ChatHeader currentChannel={currentChannel} messagesCount={currentMessages.length} />
-            <div className="chat-body d-flex flex-column flex-grow-1 overflow-hidden">
-              <MessagesList
-                messages={currentMessages}
-                scrollAnchorRef={scrollAnchorRef}
+          <Col md={2} className="bg-light d-flex flex-column h-100 min-vh-0 border-end px-3">
+            <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4 flex-shrink-0">
+              <b>{t('channels')}</b>
+              <Button
+                variant="group-vertical"
+                className="p-0 text-primary"
+                onClick={() => dispatch(openModal({ type: 'addChannel' }))}
+                aria-label={t('channel.add')}
+              >
+                <BsPlusSquare size={20} />
+                <span className="visually-hidden">+</span>
+              </Button>
+            </div>
+            <div className="flex-grow-1 overflow-hidden">
+
+              <ChannelsList
+                channels={channels}
+                currentChannelId={currentChannelId}
+                onRename={channel =>
+                  dispatch(openModal({ type: 'renameChannel', channelId: channel.id, currentName: channel.name }))}
+                onRemove={channel =>
+                  dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
               />
-              <div className="input-form-container p-3 border-top">
-                <MessageInputForm isDisabled={!currentChannelId} />
-              </div>
+            </div>
+          </Col>
+
+          {/* Основной чат */}
+          <Col md={10} className="d-flex flex-column h-100 p-0">
+            {/* Шапка */}
+            <div className="bg-light border-bottom flex-shrink-0">
+              <ChatHeader currentChannel={currentChannel} messagesCount={currentMessages.length} />
+            </div>
+
+            {/* Прокручиваемые сообщения */}
+            <div className="flex-grow-1 overflow-auto px-5 py-3 mt-3">
+              <MessagesList messages={currentMessages} scrollAnchorRef={scrollAnchorRef} />
+            </div>
+
+            {/* Ввод сообщения */}
+            <div className="border-top px-5 py-3 flex-shrink-0">
+              <MessageInputForm isDisabled={!currentChannelId} />
             </div>
           </Col>
         </Row>
+
+        <ModalsManager />
       </div>
-      <ModalsManager />
     </Container>
+
   )
 }
 

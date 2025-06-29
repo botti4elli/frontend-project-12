@@ -11,7 +11,7 @@ import handleApiError from '../utils/handleApiError'
 import avatar_1 from '../assets/avatar_1.jpg'
 
 const Signup = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { handleSignupSubmit } = useAuth()
   const usernameRef = useRef(null)
 
@@ -39,6 +39,7 @@ const Signup = () => {
                   </Card.Title>
 
                   <Formik
+                    key={i18n.language}
                     initialValues={{
                       username: '',
                       password: '',

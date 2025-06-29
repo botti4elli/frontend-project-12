@@ -4,10 +4,9 @@ import {
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { setCurrentChannelId } from '../slices/uiSlice'
-import { BsPlusSquare } from 'react-icons/bs'
 
 const ChannelsList = ({
-  channels, currentChannelId, onAddChannel, onRename, onRemove,
+  channels, currentChannelId, onRename, onRemove,
 }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -16,19 +15,6 @@ const ChannelsList = ({
 
   return (
     <>
-      {/* Шапка с названием и кнопкой добавления */}
-      <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>{t('channels')}</b>
-        <Button
-          variant="group-vertical"
-          className="p-0 text-primary"
-          onClick={onAddChannel}
-          aria-label={t('channel.add')}
-        >
-          <BsPlusSquare size={20} />
-          <span className="visually-hidden">+</span>
-        </Button>
-      </div>
 
       {/* Список каналов */}
       <Nav
@@ -36,12 +22,15 @@ const ChannelsList = ({
         className="flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         as="ul"
       >
-        {channels.map((channel) => {
+
+        {channels.map((channel, index) => {
           const isActive = channel.id === currentChannelId
+          const isLast = index === channels.length - 1
+          const itemClass = `w-100 ${isLast ? 'mb-3' : ''}`
 
           if (!channel.removable) {
             return (
-              <Nav.Item key={channel.id} className="w-100" as="li">
+              <Nav.Item key={channel.id} className={itemClass} as="li">
                 <Button
                   type="button"
                   variant={isActive ? 'secondary' : 'light'}
@@ -56,7 +45,7 @@ const ChannelsList = ({
           }
 
           return (
-            <Nav.Item key={channel.id} className="w-100" as="li">
+            <Nav.Item key={channel.id} className={itemClass} as="li">
               <div role="group" className="d-flex dropdown btn-group">
                 <Button
                   type="button"
@@ -90,6 +79,7 @@ const ChannelsList = ({
             </Nav.Item>
           )
         })}
+
       </Nav>
     </>
   )

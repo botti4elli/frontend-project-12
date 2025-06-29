@@ -10,7 +10,7 @@ const MessagesList = ({ messages, scrollAnchorRef }) => {
   }, [currentChannelId, messages.length, scrollAnchorRef])
 
   return (
-    <div className="messages-container px-3 py-2 overflow-auto flex-grow-1">
+    <div className="overflow-auto flex-grow-1 px-5">
       {messages.map(msg => (
         <div key={msg.id} className="d-flex mb-2">
           <div className="fw-bold me-2 text-nowrap">
