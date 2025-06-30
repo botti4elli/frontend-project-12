@@ -46,9 +46,6 @@ const init = async (root) => {
   }
   catch (err) {
     rollbar.error('App initialization failed', err)
-    if (process.env.NODE_ENV === 'development') {
-      console.error('App initialization failed:', err)
-    }
   }
 }
 export default init
