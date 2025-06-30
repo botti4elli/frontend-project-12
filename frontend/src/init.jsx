@@ -22,13 +22,23 @@ const initI18n = async () => {
   })
 }
 
-leoProfanity.add(leoProfanity.getDictionary('en'))
-leoProfanity.add(leoProfanity.getDictionary('ru'))
+const renderSpinner = (root) => {
+  root.render(
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="text-primary spinner-border" role="status" aria-label="Loading" />
+    </div>,
+  )
+}
 
 const init = async (root) => {
   try {
+    renderSpinner(root)
+
     await initI18n()
     await store.dispatch(checkAuth())
+
+    leoProfanity.add(leoProfanity.getDictionary('en'))
+    leoProfanity.add(leoProfanity.getDictionary('ru'))
 
     root.render(
       <React.StrictMode>
@@ -48,4 +58,5 @@ const init = async (root) => {
     rollbar.error('App initialization failed', err)
   }
 }
+
 export default init

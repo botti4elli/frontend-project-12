@@ -15,14 +15,17 @@ const MessageInputForm = ({ isDisabled, onMessageSent }) => {
 
   const [message, setMessage] = useState('')
   const formRef = useRef(null)
-  const inputRef = useRef(null)
+
+  const adjustHeight = (textarea) => {
+    textarea.style.height = 'auto'
+    textarea.style.height = `${textarea.scrollHeight}px`
+  }
 
   const handleChange = (e) => {
     setMessage(e.target.value)
 
     const textarea = e.target
-    textarea.style.height = 'auto'
-    textarea.style.height = `${textarea.scrollHeight}px`
+    adjustHeight(textarea)
   }
 
   const handleSubmit = async (e) => {
@@ -37,7 +40,7 @@ const MessageInputForm = ({ isDisabled, onMessageSent }) => {
         username,
       }).unwrap()
 
-      setMessage('') // После этого сработает useLayoutEffect
+      setMessage('')
       if (onMessageSent) onMessageSent()
     }
     catch (error) {
@@ -59,7 +62,7 @@ const MessageInputForm = ({ isDisabled, onMessageSent }) => {
     if (!textarea) return
 
     requestAnimationFrame(() => {
-      textarea.style.height = 'auto'
+      adjustHeight(textarea)
       textarea.focus()
     })
   }, [message])
@@ -69,8 +72,7 @@ const MessageInputForm = ({ isDisabled, onMessageSent }) => {
     if (!textarea) return
 
     textarea.focus()
-    textarea.style.height = 'auto'
-    textarea.style.height = `${textarea.scrollHeight}px`
+    adjustHeight(textarea)
   }, [currentChannelId])
 
   const trimmed = message.trim()
@@ -80,7 +82,6 @@ const MessageInputForm = ({ isDisabled, onMessageSent }) => {
     <Form ref={formRef} onSubmit={handleSubmit} noValidate>
       <InputGroup>
         <Form.Control
-          ref={inputRef}
           as="textarea"
           name="body"
           placeholder={t('chat.newMessage')}
