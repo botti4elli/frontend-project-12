@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -7,48 +7,28 @@ import leoProfanity from 'leo-profanity'
 import { useSendMessageMutation } from '../services/chatApi'
 import handleApiError from '../utils/handleApiError'
 
-const MessageInputForm = ({ isDisabled }) => {
-  const [message, setMessage] = useState('')
-  const [online, setOnline] = useState(() => window.navigator.onLine)
-  const inputRef = useRef(null)
+const MessageInputForm = ({ isDisabled, onMessageSent }) => {
   const { t } = useTranslation()
-
   const currentChannelId = useSelector(state => state.ui.currentChannelId)
   const username = useSelector(state => state.auth.username)
   const [sendMessage, { isLoading }] = useSendMessageMutation()
 
-  useEffect(() => {
-    const update = () => setOnline(window.navigator.onLine)
-    window.addEventListener('online', update)
-    window.addEventListener('offline', update)
-    return () => {
-      window.removeEventListener('online', update)
-      window.removeEventListener('offline', update)
-    }
-  }, [])
-
-  useEffect(() => {
-    inputRef.current?.focus()
-    if (inputRef.current) {
-      inputRef.current.style.height = 'auto'
-      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`
-    }
-  }, [currentChannelId])
-
-  const autoGrow = (el) => {
-    el.style.height = 'auto'
-    el.style.height = `${el.scrollHeight}px`
-  }
+  const [message, setMessage] = useState('')
+  const formRef = useRef(null)
+  const inputRef = useRef(null)
 
   const handleChange = (e) => {
     setMessage(e.target.value)
-    autoGrow(e.target)
+
+    const textarea = e.target
+    textarea.style.height = 'auto'
+    textarea.style.height = `${textarea.scrollHeight}px`
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const trimmed = message.trim()
-    if (!trimmed || isDisabled || !online || trimmed.length > 1000) return
+    if (!trimmed || isDisabled || trimmed.length > 1000) return
 
     try {
       await sendMessage({
@@ -56,13 +36,12 @@ const MessageInputForm = ({ isDisabled }) => {
         channelId: currentChannelId,
         username,
       }).unwrap()
-      setMessage('')
-      inputRef.current.style.height = 'auto'
-      inputRef.current?.focus()
+
+      setMessage('') // После этого сработает useLayoutEffect
+      if (onMessageSent) onMessageSent()
     }
     catch (error) {
       handleApiError(error, t, 'sendMessageFailed')
-      inputRef.current?.focus()
     }
   }
 
@@ -73,15 +52,37 @@ const MessageInputForm = ({ isDisabled }) => {
     }
   }
 
+  useLayoutEffect(() => {
+    if (message !== '') return
+
+    const textarea = formRef.current?.elements?.body
+    if (!textarea) return
+
+    requestAnimationFrame(() => {
+      textarea.style.height = 'auto'
+      textarea.focus()
+    })
+  }, [message])
+
+  useLayoutEffect(() => {
+    const textarea = formRef.current?.elements?.body
+    if (!textarea) return
+
+    textarea.focus()
+    textarea.style.height = 'auto'
+    textarea.style.height = `${textarea.scrollHeight}px`
+  }, [currentChannelId])
+
   const trimmed = message.trim()
-  const isSendDisabled = !trimmed || isDisabled || !online
+  const isSendDisabled = !trimmed || isDisabled
 
   return (
-    <Form onSubmit={handleSubmit} className="mt-auto px-3">
-      <InputGroup className="mb-3">
+    <Form ref={formRef} onSubmit={handleSubmit} noValidate>
+      <InputGroup>
         <Form.Control
           ref={inputRef}
           as="textarea"
+          name="body"
           placeholder={t('chat.newMessage')}
           value={message}
           onChange={handleChange}

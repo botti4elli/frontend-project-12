@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
@@ -26,19 +25,10 @@ const initI18n = async () => {
 leoProfanity.add(leoProfanity.getDictionary('en'))
 leoProfanity.add(leoProfanity.getDictionary('ru'))
 
-const init = async () => {
+const init = async (root) => {
   try {
     await initI18n()
     await store.dispatch(checkAuth())
-
-    const rootElement = document.getElementById('root')
-    if (!rootElement) {
-      const err = new Error('Root element not found')
-      rollbar.error(err)
-      console.error(err)
-      return
-    }
-    const root = ReactDOM.createRoot(rootElement)
 
     root.render(
       <React.StrictMode>
@@ -56,8 +46,9 @@ const init = async () => {
   }
   catch (err) {
     rollbar.error('App initialization failed', err)
-    console.error('App initialization failed:', err)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('App initialization failed:', err)
+    }
   }
 }
-
 export default init

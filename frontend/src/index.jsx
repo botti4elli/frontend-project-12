@@ -1,21 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import init from './init.jsx'
+import ReactDOM from 'react-dom/client'
 import rollbar from './rollbar/rollbarConfig.js'
+import init from './init.jsx'
 
 const rootElement = document.getElementById('root')
-if (!rootElement) throw new Error('Root element not found!')
-
-window.addEventListener('error', (event) => {
-  rollbar.error(event.error || event.message)
-})
-
-window.addEventListener('unhandledrejection', (event) => {
-  rollbar.error(event.reason)
-})
-
-rootElement.innerHTML = '<div class="loader">Loading translations...</div>'
-
-init().catch((error) => {
-  console.error(error)
+if (!rootElement) {
+  const error = new Error('Root element not found!')
   rollbar.error(error)
+  throw error
+}
+
+const root = ReactDOM.createRoot(rootElement)
+
+root.render(
+  <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="text-primary spinner-border" role="status" aria-label="Loading" />
+  </div>,
+)
+
+const bootstrap = async () => {
+  try {
+    await init(root)
+  }
+  catch (error) {
+    rollbar.error('Initialization failed', error)
+  }
+}
+
+bootstrap().catch((err) => {
+  rollbar.error(err)
 })

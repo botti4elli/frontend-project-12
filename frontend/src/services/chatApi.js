@@ -3,6 +3,7 @@ import { logout } from '../slices/authSlice'
 import { getToken } from '../utils/storage'
 import i18next from 'i18next'
 import { APP_ROUTES } from '../constants/routes.js'
+import { toast } from 'react-toastify'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api/v1',
@@ -18,17 +19,23 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions)
 
-  const isLoginCall
-      = typeof args === 'object' && (args.url === '/login' || args?.body?.username)
-
-  if (result.error?.status === 401 && !isLoginCall) {
+  const isAuthRequest = typeof args === 'object'
+    && typeof args.url === 'string'
+    && ['/login', '/signup'].includes(args.url)
+  if (result.error?.status === 401 && !isAuthRequest) {
     api.dispatch(logout())
-    alert(i18next.t('errors.unauthorized'))
-    window.location.assign(APP_ROUTES.LOGIN)
+
+    toast.error(i18next.t('errors.unauthorized'))
+
+    const navigate = extraOptions?.meta?.navigate
+    if (typeof navigate === 'function') {
+      await navigate(APP_ROUTES.LOGIN)
+    }
   }
 
   return result
 }
+
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: baseQueryWithReauth,

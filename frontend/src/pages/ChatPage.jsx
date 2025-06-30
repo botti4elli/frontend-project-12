@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +11,7 @@ import ChatHeader from '../components/ChatHeader'
 import MessagesList from '../components/MessagesList'
 import MessageInputForm from '../components/MessageInputForm'
 import ModalsManager from '../components/ModalsManager'
+import MessagesWrapper from '../components/MessagesWrapper'
 import { BsPlusSquare } from 'react-icons/bs'
 
 const ChatPage = () => {
@@ -26,7 +27,10 @@ const ChatPage = () => {
     pollingInterval: 3000,
   })
 
-  const scrollAnchorRef = useRef(null)
+  const [scrollToBottomTrigger, setScrollToBottomTrigger] = useState(0)
+  const handleMessageSent = () => {
+    setScrollToBottomTrigger(prev => prev + 1)
+  }
 
   useEffect(() => {
     if (channels.length > 0 && !currentChannelId) {
@@ -39,6 +43,10 @@ const ChatPage = () => {
     () => messages.filter(m => m.channelId === currentChannelId),
     [messages, currentChannelId],
   )
+
+  useEffect(() => {
+    setScrollToBottomTrigger(prev => prev + 1)
+  }, [currentMessages])
 
   const { t } = useTranslation()
 
@@ -54,6 +62,7 @@ const ChatPage = () => {
     <Container fluid className="bg-light d-flex justify-content-center align-items-start py-4">
       <div className="shadow rounded bg-white w-100" style={{ maxWidth: '1300px', height: '85vh' }}>
         <Row className="h-100 m-0">
+
           <Col md={2} className="bg-light d-flex flex-column h-100 min-vh-0 border-end px-3">
             <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4 flex-shrink-0">
               <b>{t('channels')}</b>
@@ -88,13 +97,16 @@ const ChatPage = () => {
             </div>
 
             {/* Прокручиваемые сообщения */}
-            <div className="flex-grow-1 overflow-auto px-5 py-3 mt-3">
-              <MessagesList messages={currentMessages} scrollAnchorRef={scrollAnchorRef} />
+            <div className="flex-grow-1 overflow-auto px-5 py-3 mt-3" style={{ minHeight: 0 }}>
+              <MessagesWrapper scrollToBottomTrigger={scrollToBottomTrigger}>
+                <MessagesList messages={currentMessages} />
+              </MessagesWrapper>
             </div>
 
             {/* Ввод сообщения */}
             <div className="border-top px-5 py-3 flex-shrink-0">
-              <MessageInputForm isDisabled={!currentChannelId} />
+              <MessageInputForm isDisabled={!currentChannelId} onMessageSent={handleMessageSent} />
+
             </div>
           </Col>
         </Row>
@@ -102,7 +114,6 @@ const ChatPage = () => {
         <ModalsManager />
       </div>
     </Container>
-
   )
 }
 
